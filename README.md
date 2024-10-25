@@ -18,7 +18,7 @@ You can install the development version of CohortSymmetry from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("oxford-pharmacoepi/CohortSymmetry")
+devtools::install_github("OHDSI/CohortSymmetry")
 ```
 
 ## Example
@@ -88,14 +88,12 @@ cdm <- generateSequenceCohortSet(
   markerTable = "amoxicillin",
   name = "aspirin_amoxicillin"
 )
-#> ! cohort columns will be reordered to match the expected order:
-#>   cohort_definition_id, subject_id, cohort_start_date, and cohort_end_date.
 
 cdm$aspirin_amoxicillin %>% 
   dplyr::glimpse()
 #> Rows: ??
 #> Columns: 6
-#> Database: DuckDB v0.10.1 [xihangc@Windows 10 x64:R 4.3.1/C:\Users\xihangc\AppData\Local\Temp\Rtmpq80Ncd\file3ff054e0221b.duckdb]
+#> Database: DuckDB v0.10.1 [xihangc@Windows 10 x64:R 4.3.1/C:\Users\xihangc\AppData\Local\Temp\RtmpC4bMGs\file35c046d476df.duckdb]
 #> $ cohort_definition_id <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 #> $ subject_id           <int> 65, 119, 185, 144, 235, 197, 310, 280, 316, 331, …
 #> $ cohort_start_date    <date> 1968-07-29, 1967-05-28, 1947-04-07, 1978-10-30, …
@@ -114,11 +112,6 @@ intervals.
 
 ``` r
 res <- summariseSequenceRatios(cohort = cdm$aspirin_amoxicillin)
-#> Joining with `by = join_by(days_prior_observation, washout_window,
-#> index_marker_gap, combination_window, confidence_interval,
-#> moving_average_restriction, cdm_name)`
-#> ! The following column type were changed: • result_id: from character to
-#> integer
  
 res %>% glimpse()
 #> Rows: 10
@@ -133,7 +126,7 @@ res %>% glimpse()
 #> $ variable_level   <chr> "sequence_ratio", "sequence_ratio", "sequence_ratio",…
 #> $ estimate_name    <chr> "point_estimate", "point_estimate", "lower_CI", "uppe…
 #> $ estimate_type    <chr> "numeric", "numeric", "numeric", "numeric", "numeric"…
-#> $ estimate_value   <chr> "1.43589743589744", "1.35265700483092", "0.9573119756…
+#> $ estimate_value   <chr> "1.43589743589744", "3017.92412224067", "0.9573119756…
 #> $ additional_name  <chr> "overall", "overall", "overall", "overall", "overall"…
 #> $ additional_level <chr> "overall", "overall", "overall", "overall", "overall"…
 ```

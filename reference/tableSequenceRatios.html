@@ -29,7 +29,7 @@ output."><meta property="og:image" content="https://oxford-pharmacoepi.github.io
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/oxford-pharmacoepi/CohortSymmetry/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/OHDSI/CohortSymmetry/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -38,7 +38,7 @@ output."><meta property="og:image" content="https://oxford-pharmacoepi.github.io
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>A formatted visualization of sequence_symmetry objects.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/oxford-pharmacoepi/CohortSymmetry/blob/main/R/displayTables.R" class="external-link"><code>R/displayTables.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/OHDSI/CohortSymmetry/blob/main/R/displayTables.R" class="external-link"><code>R/displayTables.R</code></a></small>
       <div class="d-none name"><code>tableSequenceRatios.Rd</code></div>
     </div>
 
@@ -108,7 +108,7 @@ their default values.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://oxford-pharmacoepi.github.io/CohortSymmetry/">CohortSymmetry</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/CohortSymmetry/" class="external-link">CohortSymmetry</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="mockCohortSymmetry.html">mockCohortSymmetry</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #BBBB00;">!</span> 9 column in <span style="font-weight: bold;">cdm_source</span> do not match expected column type:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `cdm_source_abbreviation` is <span style="color: #0000BB;">logical</span> but expected <span style="color: #0000BB;">character</span></span>
@@ -150,9 +150,9 @@ their default values.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `box_size` is <span style="color: #0000BB;">numeric</span> but expected <span style="color: #0000BB;">integer</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `valid_start_date` is <span style="color: #0000BB;">character</span> but expected <span style="color: #0000BB;">date</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">•</span> `valid_end_date` is <span style="color: #0000BB;">character</span> but expected <span style="color: #0000BB;">date</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are observation period end dates after the current date: 2024-10-21</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are observation period end dates after the current date: 2024-10-25</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The latest max observation period end date found is 2026-10-26</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are observation period end dates after the current date: 2024-10-21</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are observation period end dates after the current date: 2024-10-25</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The latest max observation period end date found is 2026-10-26</span>
 <span class="r-in"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="generateSequenceCohortSet.html">generateSequenceCohortSet</a></span><span class="op">(</span>cdm <span class="op">=</span> <span class="va">cdm</span>,</span></span>
 <span class="r-in"><span>                                 indexTable <span class="op">=</span> <span class="st">"cohort_1"</span>,</span></span>

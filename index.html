@@ -49,7 +49,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/oxford-pharmacoepi/CohortSymmetry/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/OHDSI/CohortSymmetry/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -72,7 +72,7 @@
 <p>You can install the development version of CohortSymmetry from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"oxford-pharmacoepi/CohortSymmetry"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"OHDSI/CohortSymmetry"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -119,7 +119,7 @@
 </h3>
 <p>In order to initiate the calculations, the two cohorts tables need to be intersected using <code><a href="reference/generateSequenceCohortSet.html">generateSequenceCohortSet()</a></code>. This process will output all the individuals who appeared on both tables according to a user-specified parameters. This includes <code>timeGap</code>, <code>washoutWindow</code>, <code>indexMarkerGap</code> and <code>daysPriorObservation</code>. Details on these parameters could be found on the vignette.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://oxford-pharmacoepi.github.io/CohortSymmetry/">CohortSymmetry</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ohdsi.github.io/CohortSymmetry/" class="external-link">CohortSymmetry</a></span><span class="op">)</span></span>
 <span> </span>
 <span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generateSequenceCohortSet.html">generateSequenceCohortSet</a></span><span class="op">(</span></span>
 <span>  cdm <span class="op">=</span> <span class="va">cdm</span>,</span>
@@ -127,14 +127,12 @@
 <span>  markerTable <span class="op">=</span> <span class="st">"amoxicillin"</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"aspirin_amoxicillin"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; ! cohort columns will be reordered to match the expected order:</span></span>
-<span><span class="co">#&gt;   cohort_definition_id, subject_id, cohort_start_date, and cohort_end_date.</span></span>
 <span></span>
 <span><span class="va">cdm</span><span class="op">$</span><span class="va">aspirin_amoxicillin</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 6</span></span>
-<span><span class="co">#&gt; Database: DuckDB v0.10.1 [xihangc@Windows 10 x64:R 4.3.1/C:\Users\xihangc\AppData\Local\Temp\Rtmpq80Ncd\file3ff054e0221b.duckdb]</span></span>
+<span><span class="co">#&gt; Database: DuckDB v0.10.1 [xihangc@Windows 10 x64:R 4.3.1/C:\Users\xihangc\AppData\Local\Temp\RtmpC4bMGs\file35c046d476df.duckdb]</span></span>
 <span><span class="co">#&gt; $ cohort_definition_id &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
 <span><span class="co">#&gt; $ subject_id           &lt;int&gt; 65, 119, 185, 144, 235, 197, 310, 280, 316, 331, …</span></span>
 <span><span class="co">#&gt; $ cohort_start_date    &lt;date&gt; 1968-07-29, 1967-05-28, 1947-04-07, 1978-10-30, …</span></span>
@@ -148,11 +146,6 @@
 <p>To get the sequence ratios, we would need the output of the generateSequenceCohortSet() function to be fed into <code><a href="reference/summariseSequenceRatios.html">summariseSequenceRatios()</a></code> The output of this process contains cSR(crude sequence ratio), aSR(adjusted sequence ratio) and confidence intervals.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/summariseSequenceRatios.html">summariseSequenceRatios</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">aspirin_amoxicillin</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(days_prior_observation, washout_window,</span></span>
-<span><span class="co">#&gt; index_marker_gap, combination_window, confidence_interval,</span></span>
-<span><span class="co">#&gt; moving_average_restriction, cdm_name)`</span></span>
-<span><span class="co">#&gt; ! The following column type were changed: • result_id: from character to</span></span>
-<span><span class="co">#&gt; integer</span></span>
 <span> </span>
 <span><span class="va">res</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 10</span></span>
@@ -167,7 +160,7 @@
 <span><span class="co">#&gt; $ variable_level   &lt;chr&gt; "sequence_ratio", "sequence_ratio", "sequence_ratio",…</span></span>
 <span><span class="co">#&gt; $ estimate_name    &lt;chr&gt; "point_estimate", "point_estimate", "lower_CI", "uppe…</span></span>
 <span><span class="co">#&gt; $ estimate_type    &lt;chr&gt; "numeric", "numeric", "numeric", "numeric", "numeric"…</span></span>
-<span><span class="co">#&gt; $ estimate_value   &lt;chr&gt; "1.43589743589744", "1.35265700483092", "0.9573119756…</span></span>
+<span><span class="co">#&gt; $ estimate_value   &lt;chr&gt; "1.43589743589744", "3017.92412224067", "0.9573119756…</span></span>
 <span><span class="co">#&gt; $ additional_name  &lt;chr&gt; "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span><span class="co">#&gt; $ additional_level &lt;chr&gt; "overall", "overall", "overall", "overall", "overall"…</span></span></code></pre></div>
 </div>
@@ -204,8 +197,8 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=CohortSymmetry" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/oxford-pharmacoepi/CohortSymmetry/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/oxford-pharmacoepi/CohortSymmetry/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/OHDSI/CohortSymmetry/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/OHDSI/CohortSymmetry/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 

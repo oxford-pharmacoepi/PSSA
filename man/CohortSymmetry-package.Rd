@@ -13,8 +13,8 @@ Calculating crude sequence ratio, adjusted sequence ratio and confidence interva
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://oxford-pharmacoepi.github.io/CohortSymmetry/}
-  \item Report bugs at \url{https://github.com/oxford-pharmacoepi/CohortSymmetry/issues}
+  \item \url{https://ohdsi.github.io/CohortSymmetry/}
+  \item Report bugs at \url{https://github.com/OHDSI/CohortSymmetry/issues}
 }
 
 }

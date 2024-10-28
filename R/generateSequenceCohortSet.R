@@ -1,8 +1,10 @@
 #' Intersecting the index and marker cohorts prior to calculating Sequence Symmetry Ratios
+#'
 #' @description
 #' Join two tables in the CDM (one for index and the other for marker cohorts)
 #' into a new table in the cdm taking into account the maximum time interval between events.
 #' Index and marker cohorts should be instantiated in advance by the user.
+#'
 #' @param cdm A CDM reference.
 #' @param indexTable A table in the CDM that the index cohorts should come from.
 #' @param markerTable A table in the CDM that the marker cohorts should come from.

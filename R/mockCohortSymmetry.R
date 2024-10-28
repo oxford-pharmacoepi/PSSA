@@ -1,4 +1,5 @@
 #' Creates mock cdm object for testing
+#'
 #' @description
 #' Creates a mock cdm with two default synthetic cohorts,
 #' one is the index cohort and the other one is the marker cohort.

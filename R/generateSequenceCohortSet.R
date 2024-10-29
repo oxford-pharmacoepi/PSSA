@@ -384,7 +384,7 @@ generateSequenceCohortSet <- function(cdm,
   }
 
   cdm <- CDMConnector::dropTable(cdm = cdm, name = "ids")
-  cdm <- CDMConnector::dropTable(cdm = cdm, name = dplyr::starts_with(nsr_name))
+  CDMConnector::dropTable(cdm = cdm, name = dplyr::starts_with(nsr_name))
 
   return(cdm)
 }

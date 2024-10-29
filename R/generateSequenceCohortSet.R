@@ -9,12 +9,12 @@
 #' @param indexTable A table in the CDM that the index cohorts should come from.
 #' @param markerTable A table in the CDM that the marker cohorts should come from.
 #' @param name The name within the cdm that the output is called. Default is joined_cohorts.
-#' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
-#' to restrict to.
 #' @param indexId Cohort definition IDs in indexTable to be considered for the analysis.
 #' Change to NULL if all indices are wished to be included.
 #' @param markerId Cohort definition IDs in markerTable to be considered for the analysis.
 #' Change to NULL if all markers are wished to be included.
+#' #' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
+#' to restrict to.
 #' @param daysPriorObservation The minimum amount of prior observation required on both the index
 #' and marker cohorts per person.
 #' @param washoutWindow A washout window to be applied on both the index cohort event and marker cohort.
@@ -104,32 +104,28 @@ generateSequenceCohortSet <- function(cdm,
 
   ### nsr
   nsr_name <- omopgenerics::uniqueId()
-  nsr_index_name <- paste0(nsr_name, "_", indexTable, "_index")
-  nsr_marker_name <- paste0(nsr_name, "_", markerTable, "_marker")
   nsr_summary_name <- paste0(nsr_name, "_nsr_summary")
 
-  index_nsr_summary <- inc_cohort_summary(cdm = cdm,
-                                          tableName = indexTable,
-                                          cohortId = indexId,
-                                          nsrTableName = nsr_index_name,
-                                          cohortDateRange = cohortDateRange) |>
-    dplyr::rename("index_cohort_definition_id" = "cohort_definition_id",
-                  "index_n" = "n")
+  index_res <- inc_cohort_check(cdm = cdm,
+                                tableName = indexTable,
+                                cohortId = indexId,
+                                nsrTableName = nsr_name,
+                                cohortDateRange = cohortDateRange)
 
-  if (nrow(index_nsr_summary |> dplyr::collect()) ==0){
-    cli::cli_abort("Aborted! There are no events in the index cohort during the cohortDateRange specified. ")
+  if (length(index_res)>0){
+    cli::cli_abort("Aborted! cohort_definition_id {index_res} in the index
+                   cohort have no events during the cohortDateRange specified.")
   }
 
-  marker_nsr_summary <- inc_cohort_summary(cdm = cdm,
-                                           tableName = markerTable,
-                                           cohortId = markerId,
-                                           nsrTableName = nsr_marker_name,
-                                           cohortDateRange = cohortDateRange) |>
-    dplyr::rename("marker_cohort_definition_id" = "cohort_definition_id",
-                  "marker_n" = "n")
+  marker_res <- inc_cohort_check(cdm = cdm,
+                                 tableName = markerTable,
+                                 cohortId = markerId,
+                                 nsrTableName = nsr_name,
+                                 cohortDateRange = cohortDateRange)
 
-  if (nrow(marker_nsr_summary |> dplyr::collect()) ==0){
-    cli::cli_abort("Aborted! There are no events in the marker cohort during the cohortDateRange specified. ")
+  if (length(marker_res)>0){
+    cli::cli_abort("Aborted! cohort_definition_id {marker_res} in the index
+                   cohort have no events during the cohortDateRange specified.")
   }
 
   nsr_df <- index_nsr_summary |>

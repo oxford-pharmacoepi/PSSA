@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
  
-# CohortSymmetry <a href="https://oxford-pharmacoepi.github.io/CohortSymmetry/"><img src="man/figures/logo.png" align="right" height="137" alt="CohortSymmetry website" /></a>
+# CohortSymmetry <a href="https://ohdsi.github.io/CohortSymmetry/"><img src="man/figures/logo.png" align="right" height="137" alt="CohortSymmetry website" /></a>
  
 <!-- badges: start -->
 <!-- badges: end -->

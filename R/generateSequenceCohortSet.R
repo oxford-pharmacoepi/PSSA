@@ -104,6 +104,7 @@ generateSequenceCohortSet <- function(cdm,
 
   ### nsr
   nsr_name <- omopgenerics::uniqueId()
+  nsr_summary_name <- paste0(nsr_name, "_summary")
 
   index_res <- inc_cohort_check(cdm = cdm,
                                 tableName = indexTable,

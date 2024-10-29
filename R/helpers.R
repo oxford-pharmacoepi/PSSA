@@ -64,8 +64,58 @@ preprocessCohort <- function(cdm, cohortName, cohortId, cohortDateRange) {
   return(cohort)
 }
 
-inc_cohort_summary <- function(cdm, tableName, cohortId, nsrTableName, cohortDateRange){
+inc_cohort_check <- function(cdm, tableName, cohortId, nsrTableName, cohortDateRange){
   nsr_cohort <- cdm [[tableName]]
+
+  tbl_name <- paste0(nsrTableName, omopgenerics::uniqueTableName())
+
+  if (any(is.na(cohortDateRange))) {
+    cohortDateRange <- getcohortDateRange(
+      cdm = cdm,
+      cohortDateRange = cohortDateRange
+    )
+  }
+
+  if (!is.null(cohortId)){
+    nsr_cohort <- nsr_cohort |>
+      dplyr::filter(.data$cohort_definition_id %in% .env$cohortId)
+  }
+  cohort_definition_ids <- nsr_cohort |>
+    dplyr::distinct(.data$cohort_definition_id) |>
+    dplyr::collect() |>
+    dplyr::arrange(.data$cohort_definition_id) |>
+    dplyr::pull("cohort_definition_id")
+
+  inc_cohort_ids <- nsr_cohort |>
+    dplyr::group_by(.data$cohort_definition_id, .data$subject_id) |>
+    dplyr::arrange(.data$cohort_start_date) |>
+    dplyr::mutate(row_num = dplyr::row_number()) |>
+    dplyr::filter(.data$row_num == 1) |>
+    dplyr::select(-"row_num") |>
+    dplyr::ungroup() |>
+    dplyr::group_by(.data$cohort_definition_id, .data$cohort_start_date) |>
+    dplyr::summarise(n = dplyr::n()) |>
+    dplyr::ungroup() |>
+    dplyr::filter(
+      .data$cohort_start_date <= !!cohortDateRange[[2]] &
+        .data$cohort_start_date >= !!cohortDateRange[[1]]
+    ) |>
+    dplyr::compute(name = tbl_name, temporary = FALSE) |>
+    dplyr::distinct(.data$cohort_definition_id) |>
+    dplyr::collect() |>
+    dplyr::arrange(.data$cohort_definition_id) |>
+    dplyr::pull("cohort_definition_id")
+
+  diff <- setdiff(inc_cohort_ids, cohort_definition_ids)
+  return(diff)
+}
+
+inc_cohort_summary <- function(cdm, tableName, cohortId, nsrTableName, cohortDateRange){
+
+  nsr_cohort <- cdm[[tableName]]
+
+  tbl_name <- paste0(nsrTableName, omopgenerics::uniqueTableName())
+
   if (!is.null(cohortId)) {
     nsr_cohort <- nsr_cohort |>
       dplyr::filter(.data$cohort_definition_id %in% .env$cohortId)
@@ -84,7 +134,7 @@ inc_cohort_summary <- function(cdm, tableName, cohortId, nsrTableName, cohortDat
       .data$cohort_start_date <= !!cohortDateRange[[2]] &
         .data$cohort_start_date >= !!cohortDateRange[[1]]
     ) |>
-    dplyr::compute(name = nsrTableName, temporary = FALSE)
+    dplyr::compute(name = tbl_name, temporary = FALSE)
   return(nsr_cohort_summary)
 }
 

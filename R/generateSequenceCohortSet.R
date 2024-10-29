@@ -104,7 +104,6 @@ generateSequenceCohortSet <- function(cdm,
 
   ### nsr
   nsr_name <- omopgenerics::uniqueId()
-  nsr_summary_name <- paste0(nsr_name, "_nsr_summary")
 
   index_res <- inc_cohort_check(cdm = cdm,
                                 tableName = indexTable,
@@ -128,8 +127,28 @@ generateSequenceCohortSet <- function(cdm,
                    cohort have no events during the cohortDateRange specified.")
   }
 
+  index_nsr_summary <- inc_cohort_summary(cdm = cdm,
+                                          tableName = indexTable,
+                                          cohortId = indexId,
+                                          nsrTableName = nsr_name,
+                                          cohortDateRange = cohortDateRange)
+
+  marker_nsr_summary <- inc_cohort_summary(cdm = cdm,
+                                           tableName = markerTable,
+                                           cohortId = markerId,
+                                           nsrTableName = nsr_name,
+                                           cohortDateRange = cohortDateRange)
+
   nsr_df <- index_nsr_summary |>
-    dplyr::full_join(marker_nsr_summary,
+    dplyr::rename(
+      "index_cohort_definition_id" = "cohort_definition_id",
+      "index_n" = "n"
+    ) |>
+    dplyr::full_join(marker_nsr_summary |>
+                       dplyr::rename(
+                         "marker_cohort_definition_id" = "cohort_definition_id",
+                         "marker_n" = "n"
+                       ),
                      by = "cohort_start_date",
                      relationship = "many-to-many") |>
     dplyr::select(
@@ -146,13 +165,15 @@ generateSequenceCohortSet <- function(cdm,
     dplyr::filter(!is.na(.data$index_cohort_definition_id)) |>
     dplyr::distinct(.data$index_cohort_definition_id) |>
     dplyr::collect() |>
-    dplyr::pull(.data$index_cohort_definition_id)
+    dplyr::arrange(.data$index_cohort_definition_id) |>
+    dplyr::pull("index_cohort_definition_id")
 
   existing_marker_id <- nsr_df |>
     dplyr::filter(!is.na(.data$marker_cohort_definition_id)) |>
     dplyr::distinct(.data$marker_cohort_definition_id) |>
     dplyr::collect() |>
-    dplyr::pull(.data$marker_cohort_definition_id)
+    dplyr::arrange(.data$marker_cohort_definition_id) |>
+    dplyr::pull("marker_cohort_definition_id")
 
   for (i in existing_index_id){
     for (j in existing_marker_id){

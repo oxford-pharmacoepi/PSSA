@@ -32,8 +32,9 @@ generateSequenceCohortSet(
 Change to NULL if all indices are wished to be included.}
 
 \item{markerId}{Cohort definition IDs in markerTable to be considered for the analysis.
-Change to NULL if all markers are wished to be included.
-#' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
+Change to NULL if all markers are wished to be included.}
+
+\item{cohortDateRange}{Two dates indicating study period and the sequences that the user wants
 to restrict to.}
 
 \item{daysPriorObservation}{The minimum amount of prior observation required on both the index

@@ -13,7 +13,7 @@
 #' Change to NULL if all indices are wished to be included.
 #' @param markerId Cohort definition IDs in markerTable to be considered for the analysis.
 #' Change to NULL if all markers are wished to be included.
-#' #' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
+#' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
 #' to restrict to.
 #' @param daysPriorObservation The minimum amount of prior observation required on both the index
 #' and marker cohorts per person.

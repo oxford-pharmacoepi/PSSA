@@ -58,7 +58,7 @@ Imports:
     tibble,
     visOmopResults (>= 0.3.0),
     tidyr,
-    omock (>= 0.3.0),    
+    omock (>= 0.3.1),    
     stats,
     duckdb,
     here,

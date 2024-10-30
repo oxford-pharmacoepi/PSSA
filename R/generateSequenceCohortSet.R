@@ -1,18 +1,20 @@
 #' Intersecting the index and marker cohorts prior to calculating Sequence Symmetry Ratios
+#'
 #' @description
 #' Join two tables in the CDM (one for index and the other for marker cohorts)
 #' into a new table in the cdm taking into account the maximum time interval between events.
 #' Index and marker cohorts should be instantiated in advance by the user.
+#'
 #' @param cdm A CDM reference.
 #' @param indexTable A table in the CDM that the index cohorts should come from.
 #' @param markerTable A table in the CDM that the marker cohorts should come from.
 #' @param name The name within the cdm that the output is called. Default is joined_cohorts.
-#' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
-#' to restrict to.
 #' @param indexId Cohort definition IDs in indexTable to be considered for the analysis.
 #' Change to NULL if all indices are wished to be included.
 #' @param markerId Cohort definition IDs in markerTable to be considered for the analysis.
 #' Change to NULL if all markers are wished to be included.
+#' @param cohortDateRange Two dates indicating study period and the sequences that the user wants
+#' to restrict to.
 #' @param daysPriorObservation The minimum amount of prior observation required on both the index
 #' and marker cohorts per person.
 #' @param washoutWindow A washout window to be applied on both the index cohort event and marker cohort.
@@ -43,9 +45,9 @@ generateSequenceCohortSet <- function(cdm,
                               indexTable,
                               markerTable,
                               name,
-                              cohortDateRange = as.Date(c(NA, NA)),
                               indexId = NULL,
                               markerId = NULL,
+                              cohortDateRange = as.Date(c(NA, NA)),
                               daysPriorObservation = 0,
                               washoutWindow = 0,
                               indexMarkerGap = NULL,
@@ -57,9 +59,9 @@ generateSequenceCohortSet <- function(cdm,
     indexTable = indexTable,
     markerTable = markerTable,
     name = name,
-    cohortDateRange = cohortDateRange,
     indexId = indexId,
     markerId = markerId,
+    cohortDateRange = cohortDateRange,
     daysPriorObservation = daysPriorObservation,
     washoutWindow = washoutWindow,
     indexMarkerGap = indexMarkerGap,
@@ -102,36 +104,52 @@ generateSequenceCohortSet <- function(cdm,
 
   ### nsr
   nsr_name <- omopgenerics::uniqueId()
-  nsr_index_name <- paste0(nsr_name, "_", indexTable, "_index")
-  nsr_marker_name <- paste0(nsr_name, "_", markerTable, "_marker")
-  nsr_summary_name <- paste0(nsr_name, "_nsr_summary")
+  nsr_summary_name <- paste0(nsr_name, "_summary")
+
+  index_res <- inc_cohort_check(cdm = cdm,
+                                tableName = indexTable,
+                                cohortId = indexId,
+                                nsrTableName = nsr_name,
+                                cohortDateRange = cohortDateRange)
+
+  if (length(index_res)>0){
+    cli::cli_abort("Aborted! cohort_definition_id {index_res} in the index
+                   cohort have no events during the cohortDateRange specified.")
+  }
+
+  marker_res <- inc_cohort_check(cdm = cdm,
+                                 tableName = markerTable,
+                                 cohortId = markerId,
+                                 nsrTableName = nsr_name,
+                                 cohortDateRange = cohortDateRange)
+
+  if (length(marker_res)>0){
+    cli::cli_abort("Aborted! cohort_definition_id {marker_res} in the index
+                   cohort have no events during the cohortDateRange specified.")
+  }
 
   index_nsr_summary <- inc_cohort_summary(cdm = cdm,
                                           tableName = indexTable,
                                           cohortId = indexId,
-                                          nsrTableName = nsr_index_name,
-                                          cohortDateRange = cohortDateRange) |>
-    dplyr::rename("index_cohort_definition_id" = "cohort_definition_id",
-                  "index_n" = "n")
-
-  if (nrow(index_nsr_summary |> dplyr::collect()) ==0){
-    cli::cli_abort("Aborted! There are no events in the index cohort during the cohortDateRange specified. ")
-  }
+                                          nsrTableName = nsr_name,
+                                          cohortDateRange = cohortDateRange)
 
   marker_nsr_summary <- inc_cohort_summary(cdm = cdm,
                                            tableName = markerTable,
                                            cohortId = markerId,
-                                           nsrTableName = nsr_marker_name,
-                                           cohortDateRange = cohortDateRange) |>
-    dplyr::rename("marker_cohort_definition_id" = "cohort_definition_id",
-                  "marker_n" = "n")
-
-  if (nrow(marker_nsr_summary |> dplyr::collect()) ==0){
-    cli::cli_abort("Aborted! There are no events in the marker cohort during the cohortDateRange specified. ")
-  }
+                                           nsrTableName = nsr_name,
+                                           cohortDateRange = cohortDateRange)
 
   nsr_df <- index_nsr_summary |>
-    dplyr::full_join(marker_nsr_summary,
+    dplyr::rename(
+      "index_cohort_definition_id" = "cohort_definition_id",
+      "index_n" = "n"
+    ) |>
+    dplyr::full_join(marker_nsr_summary |>
+                       dplyr::rename(
+                         "marker_cohort_definition_id" = "cohort_definition_id",
+                         "marker_n" = "n"
+                       ),
                      by = "cohort_start_date",
                      relationship = "many-to-many") |>
     dplyr::select(
@@ -148,13 +166,15 @@ generateSequenceCohortSet <- function(cdm,
     dplyr::filter(!is.na(.data$index_cohort_definition_id)) |>
     dplyr::distinct(.data$index_cohort_definition_id) |>
     dplyr::collect() |>
-    dplyr::pull(.data$index_cohort_definition_id)
+    dplyr::arrange(.data$index_cohort_definition_id) |>
+    dplyr::pull("index_cohort_definition_id")
 
   existing_marker_id <- nsr_df |>
     dplyr::filter(!is.na(.data$marker_cohort_definition_id)) |>
     dplyr::distinct(.data$marker_cohort_definition_id) |>
     dplyr::collect() |>
-    dplyr::pull(.data$marker_cohort_definition_id)
+    dplyr::arrange(.data$marker_cohort_definition_id) |>
+    dplyr::pull("marker_cohort_definition_id")
 
   for (i in existing_index_id){
     for (j in existing_marker_id){
@@ -364,98 +384,7 @@ generateSequenceCohortSet <- function(cdm,
   }
 
   cdm <- CDMConnector::dropTable(cdm = cdm, name = "ids")
-  cdm <- CDMConnector::dropTable(cdm = cdm, name = dplyr::starts_with(nsr_name))
+  CDMConnector::dropTable(cdm = cdm, name = dplyr::starts_with(nsr_name))
 
   return(cdm)
-}
-
-### extra functions
-# If the user doesn't specify date range
-# range to min and max of obs period
-getcohortDateRange <- function(cdm, cohortDateRange) {
-  if (is.na(cohortDateRange[1])) {
-    cohortDateRange[1] <- as.Date(cdm[["observation_period"]] |>
-      dplyr::summarise(
-        min = min(.data$observation_period_start_date,
-          na.rm = TRUE
-        )
-      ) |>
-      dplyr::collect() |>
-      dplyr::pull("min"))
-  }
-  if (is.na(cohortDateRange[2])) {
-    cohortDateRange[2] <- as.Date(cdm[["observation_period"]] |>
-      dplyr::summarise(
-        max = max(.data$observation_period_end_date,
-          na.rm = TRUE
-        )
-      ) |>
-      dplyr::collect() |>
-      dplyr::pull("max"))
-  }
-  return(cohortDateRange)
-}
-
-preprocessCohort <- function(cdm, cohortName, cohortId, cohortDateRange) {
-  cohort <- cdm[[cohortName]]
-  if (!is.null(cohortId)) {
-    cohort <- cohort |>
-      dplyr::filter(.data$cohort_definition_id %in% .env$cohortId)
-  }
-  id <- "tmp_id_12345"
-  nm <- paste0("tmp_001_",  omopgenerics::uniqueTableName())
-  cohort <- cohort |>
-    dplyr::group_by(.data$cohort_definition_id, .data$subject_id) |>
-    dplyr::arrange(.data$cohort_start_date) |>
-    dplyr::mutate(!!id := dplyr::row_number()) |>
-    dplyr::compute(name = nm, temporary = FALSE)
-  cohort <- cohort |>
-    dplyr::left_join(
-      cohort |>
-        dplyr::select(dplyr::all_of(
-          c("previous_exposure" = "cohort_start_date", id, "cohort_definition_id", "subject_id")
-        )) |>
-        dplyr::mutate(!!id := .data[[id]] + 1),
-      by = c(id, "cohort_definition_id", "subject_id")
-    ) %>%
-    dplyr::mutate(gap_to_prior = as.numeric(!!CDMConnector::datediff(
-      "previous_exposure", "cohort_start_date"
-    ))) |>
-    dplyr::filter(
-      .data$cohort_start_date <= !!cohortDateRange[[2]] &
-        .data$cohort_start_date >= !!cohortDateRange[[1]]
-    ) |>
-    dplyr::group_by(.data$cohort_definition_id, .data$subject_id) |>
-    dplyr::filter(.data[[id]] == min(.data[[id]], na.rm = TRUE)) |>
-    dplyr::ungroup() |>
-    dplyr::select(!dplyr::all_of(c(id, "previous_exposure"))) |>
-    dplyr::compute(name = nm, temporary = FALSE) |>
-    PatientProfiles::addCohortName() |>
-    dplyr::compute()
-  cdm <- omopgenerics::dropTable(cdm = cdm, name = nm)
-  return(cohort)
-}
-
-inc_cohort_summary <- function(cdm, tableName, cohortId, nsrTableName, cohortDateRange){
-  nsr_cohort <- cdm [[tableName]]
-  if (!is.null(cohortId)) {
-    nsr_cohort <- nsr_cohort |>
-      dplyr::filter(.data$cohort_definition_id %in% .env$cohortId)
-  }
-  nsr_cohort_summary <- nsr_cohort |>
-    dplyr::group_by(.data$cohort_definition_id, .data$subject_id) |>
-    dplyr::arrange(.data$cohort_start_date) |>
-    dplyr::mutate(row_num = dplyr::row_number()) |>
-    dplyr::filter(.data$row_num == 1) |>
-    dplyr::select(-"row_num") |>
-    dplyr::ungroup() |>
-    dplyr::group_by(.data$cohort_definition_id, .data$cohort_start_date) |>
-    dplyr::summarise(n = dplyr::n()) |>
-    dplyr::ungroup() |>
-    dplyr::filter(
-      .data$cohort_start_date <= !!cohortDateRange[[2]] &
-        .data$cohort_start_date >= !!cohortDateRange[[1]]
-    ) |>
-    dplyr::compute(name = nsrTableName, temporary = FALSE)
-  return(nsr_cohort_summary)
 }

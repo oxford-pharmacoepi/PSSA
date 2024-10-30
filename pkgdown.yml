@@ -8,7 +8,7 @@ articles:
   a04_Visualise_sequence_ratios: a04_Visualise_sequence_ratios.html
   a05_Summarise_temporal_symmetry: a05_Summarise_temporal_symmetry.html
   a06_Visualise_temporal_symmetry: a06_Visualise_temporal_symmetry.html
-last_built: 2024-10-25T10:46Z
+last_built: 2024-10-30T09:44Z
 urls:
-  reference: https://oxford-pharmacoepi.github.io/CohortSymmetry/reference
-  article: https://oxford-pharmacoepi.github.io/CohortSymmetry/articles
+  reference: https://ohdsi.github.io/CohortSymmetry/reference
+  article: https://ohdsi.github.io/CohortSymmetry/articles

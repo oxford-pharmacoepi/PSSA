@@ -316,11 +316,11 @@ generateSequenceCohortSet <- function(cdm,
     dplyr::mutate(cohort_date_range = paste0("(",.env$cohort_date_range_1, ",",
                                              .env$cohort_date_range_2, ")"),
                   days_prior_observation = .env$daysPriorObservation,
-                  washout_window = as.character(.env$washoutWindow),
-                  index_marker_gap = as.character(.env$indexMarkerGap),
+                  washout_window = as.character(as.integer(.env$washoutWindow)),
+                  index_marker_gap = as.character(as.integer(.env$indexMarkerGap)),
                   combination_window = paste0("(",.env$comb_export_1, ",",
                                               .env$comb_export_2, ")"),
-                  moving_average_restriction = as.character(.env$movingAverageRestriction)) |>
+                  moving_average_restriction = as.character(as.integer(.env$movingAverageRestriction))) |>
     dplyr::left_join(nsr_tbl,
                      by = c("index_id", "marker_id"),
                      copy = T)

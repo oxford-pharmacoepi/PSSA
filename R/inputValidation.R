@@ -1,4 +1,4 @@
-checkInputgenerateSequenceCohortSet <- function(cdm,
+checkInputGenerateSequenceCohortSet <- function(cdm,
                                         indexTable,
                                         markerTable,
                                         name,
@@ -262,9 +262,6 @@ checkIndexMarkerGap <- function(indexMarkerGap, combinationWindow, errorMessage)
         indexMarkerGap,
         lower = 0, any.missing = FALSE, max.len = 4, add = errorMessage
       )
-    }
-    if (indexMarkerGap > combinationWindow[2]) {
-      errorMessage$push("indexMarkerGap cannot be bigger than the second element of combinationWindow.")
     }
   }
 }

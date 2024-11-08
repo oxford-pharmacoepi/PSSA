@@ -14,7 +14,7 @@ generateSequenceCohortSet(
   cohortDateRange = as.Date(c(NA, NA)),
   daysPriorObservation = 0,
   washoutWindow = 0,
-  indexMarkerGap = NULL,
+  indexMarkerGap = Inf,
   combinationWindow = c(0, 365),
   movingAverageRestriction = 548
 )

@@ -94,7 +94,7 @@ cdm <- generateSequenceCohortSet(
   cohortDateRange = as.Date(c(NA, NA)), #default
   daysPriorObservation = 0, #default
   washoutWindow = 0, #default
-  indexMarkerGap = NULL, #default
+  indexMarkerGap = Inf, #default
   combinationWindow = c(0,Inf)) # default
 
 cdm$intersect |> 

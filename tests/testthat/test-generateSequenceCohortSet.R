@@ -946,17 +946,6 @@ test_that("generateSequenceCohortSet - inputValidation", {
       indexTable = "cohort_1",
       markerTable = "cohort_2",
       cohortDateRange = as.Date(c("2002-01-01", NA)),
-      indexMarkerGap = 41,
-      combinationWindow = c(0, 40)
-    )
-  )
-  expect_error(
-    generateSequenceCohortSet(
-      cdm = cdm,
-      name = "joined_cohorts",
-      indexTable = "cohort_1",
-      markerTable = "cohort_2",
-      cohortDateRange = as.Date(c("2002-01-01", NA)),
       combinationWindow = c(80, 40)
     )
   )

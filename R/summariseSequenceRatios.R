@@ -73,7 +73,7 @@ summariseSequenceRatios <- function(cohort,
             "cohort_start_date", "cohort_end_date"
           ))) |>
         dplyr::collect() |>
-        dplyr::group_by(.data$days_first, .data$index_id, .data$index_name, .data$marker_id, .data$marker_name, .data$days_prior_observation, .data$washout_window, .data$index_marker_gap, .data$combination_window, .data$moving_average_restriction) |>
+        dplyr::group_by(.data$days_first, .data$index_id, .data$index_name, .data$marker_id, .data$marker_name, .data$cohort_date_range, .data$days_prior_observation, .data$washout_window, .data$index_marker_gap, .data$combination_window, .data$moving_average_restriction) |>
         dplyr::summarise(marker_first = sum(.data$order_ba, na.rm = T), index_first = sum((!.data$order_ba), na.rm = T), .groups = "drop") |>
         dplyr::ungroup()
 
@@ -89,7 +89,7 @@ summariseSequenceRatios <- function(cohort,
 
       meta_info <-
         temporary_cohort |>
-        dplyr::group_by(.data$index_id, .data$index_name, .data$marker_id, .data$marker_name, .data$days_prior_observation, .data$washout_window, .data$index_marker_gap, .data$combination_window, .data$moving_average_restriction) |>
+        dplyr::group_by(.data$index_id, .data$index_name, .data$marker_id, .data$marker_name, .data$cohort_date_range, .data$days_prior_observation, .data$washout_window, .data$index_marker_gap, .data$combination_window, .data$moving_average_restriction) |>
         dplyr::summarise(marker_first = sum(.data$marker_first), index_first = sum(.data$index_first), .groups = "drop") |>
         dplyr::ungroup()
 
@@ -102,7 +102,7 @@ summariseSequenceRatios <- function(cohort,
         dplyr::select("index_id", "index_name", "marker_id", "marker_name",
                       "index_first", "marker_first", "index_first_percentage", "marker_first_percentage",
                       "csr", "lower_csr_ci", "upper_csr_ci",
-                      "asr", "lower_asr_ci", "upper_asr_ci",
+                      "asr", "lower_asr_ci", "upper_asr_ci", "cohort_date_range",
                       "days_prior_observation", "washout_window", "index_marker_gap", "combination_window",
                       "moving_average_restriction", "confidence_interval")
       output <- rbind(output, partial_result)

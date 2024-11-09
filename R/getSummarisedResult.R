@@ -1,5 +1,5 @@
 getSummarisedResult <- function(x) {
-  settings <- c("days_prior_observation", "washout_window", "index_marker_gap",
+  settings <- c("cohort_date_range", "days_prior_observation", "washout_window", "index_marker_gap",
                 "combination_window", "moving_average_restriction", "confidence_interval")
   x_sum <- x |>
     dplyr::mutate(

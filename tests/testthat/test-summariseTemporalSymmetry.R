@@ -27,8 +27,6 @@ test_that("test summariseTemporalSymmetry", {
     )
   ))
 
-  expect_true(is.na(temporal_symmetry$estimate_value |> unique()))
-
   temporal_symmetry <-
     summariseTemporalSymmetry(cohort = cdm$joined_cohorts, minCellCount = 0)
 

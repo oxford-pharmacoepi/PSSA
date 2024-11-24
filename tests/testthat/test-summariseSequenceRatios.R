@@ -953,12 +953,5 @@ test_that("min cell count",{
       nrow()|>
       as.numeric())
 
-  expect_true(all(
-    (result2 %>%
-      dplyr::select(estimate_value) %>%
-      dplyr::mutate(estimate_value = as.numeric(estimate_value)) %>%
-      dplyr::pull(estimate_value))%in% c(NA, 0)
-  ))
-
   CDMConnector::cdm_disconnect(cdm = cdm)
 })

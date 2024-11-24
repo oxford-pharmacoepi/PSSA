@@ -1,7 +1,7 @@
 Package: CohortSymmetry
 Title: Sequence Symmetry Analysis Using the Observational Medical 
     Outcomes Partnership Common Data Model
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(
     person("Xihang", "Chen", , "xihang.chen@ndorms.ox.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-8112-8959")),
@@ -55,13 +55,13 @@ Imports:
     rlang,
     stringr,
     tibble,
-    visOmopResults (>= 0.3.0),
+    visOmopResults (>= 0.4.0),
     tidyr,
     omock (>= 0.3.1),    
     stats,
     duckdb,
     here,
-    omopgenerics (>= 0.2.1),
+    omopgenerics (>= 0.4.0),
     flextable,
     gt,
     DrugUtilisation (>= 0.7.0),

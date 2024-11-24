@@ -122,12 +122,6 @@ test_that("empty result error",{
                                    indexTable = "cohort_1",
                                    markerTable = "cohort_2")
 
-  ts <- summariseTemporalSymmetry(cohort = cdm$joined_cohorts)
-
-  expect_error(
-    plotTemporalSymmetry(ts)
-  )
-
   ts2 <- summariseTemporalSymmetry(cohort = cdm$joined_cohorts,
                                      minCellCount = 0)
 

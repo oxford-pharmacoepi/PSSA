@@ -359,21 +359,6 @@ checkSingleBoolean <- function(splitGroup, errorMessage) {
                            add = errorMessage)
 }
 
-checkOptions <- function(.options, errorMessage) {
-  allowedNames <- names(tableSequenceRatiosOptions())
-  optionsNames <- names(.options)
-  checkmate::assertList(.options, null.ok = TRUE, any.missing = TRUE,
-                        types = c("numeric", "logical", "character", "list"),
-                        add = errorMessage)
-  names_id <- optionsNames %in% allowedNames
-  if(!all(names_id)) {
-    errorMessage$push(
-      paste0("The following elements are not supported arguments for .options: ",
-             paste0(optionsNames[!names_id], collapse = ", "))
-    )
-  }
-}
-
 checkXLim <- function(xlim, errorMessage) {
   checkmate::assert_integerish(xlim,
                                len = 2,

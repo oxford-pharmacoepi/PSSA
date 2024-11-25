@@ -137,8 +137,6 @@ checksFormatSequenceSymmetry <- function(type, crude, adjusted, studyPopulation,
   }
   ## Type
   checkType(type, errorMessage)
-  ## .options
-  checkOptions(.options, errorMessage)
   # Report errors
   checkmate::reportAssertions(collection = errorMessage)
 }

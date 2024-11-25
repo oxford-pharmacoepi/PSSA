@@ -955,3 +955,57 @@ test_that("min cell count",{
 
   CDMConnector::cdm_disconnect(cdm = cdm)
 })
+
+test_that("Inf CI", {
+  skip_on_cran()
+  indexCohort <- dplyr::tibble(
+    cohort_definition_id = c(1, 1, 1, 1),
+    subject_id = c(1, 2, 3, 4),
+    cohort_start_date = as.Date(
+      c(
+        "2020-04-01", "2021-06-01", "2022-05-22", "2010-01-01"
+      )
+    ),
+    cohort_end_date = as.Date(
+      c(
+        "2020-04-01", "2021-06-01", "2022-05-22", "2010-01-01"
+      )
+    )
+  )|>
+    dplyr::mutate(cohort_definition_id = as.integer(.data$cohort_definition_id),
+                  subject_id = as.integer(.data$subject_id))
+
+  markerCohort <- dplyr::tibble(
+    cohort_definition_id = c(1, 1, 1, 1),
+    subject_id = c(1, 2, 3, 4),
+    cohort_start_date = as.Date(
+      c(
+        "2020-04-02", "2021-06-02", "2022-05-23", "2010-01-02"
+      )
+    ),
+    cohort_end_date = as.Date(
+      c(
+        "2020-04-02", "2021-06-02", "2022-05-23", "2010-01-02"
+      )
+    )
+  )|>
+    dplyr::mutate(cohort_definition_id = as.integer(.data$cohort_definition_id),
+                  subject_id = as.integer(.data$subject_id))
+
+  cdm <- mockCohortSymmetry(indexCohort = indexCohort,
+                            markerCohort = markerCohort)
+
+  cdm <- generateSequenceCohortSet(cdm = cdm,
+                                   name = "joined_cohorts",
+                                   indexTable = "cohort_1",
+                                   markerTable = "cohort_2")
+
+  res <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
+
+  expect_true(
+    all(res |>
+          dplyr::filter(estimate_name %in% c("lower_CI", "upper_CI")) |>
+          dplyr::pull("estimate_value") == "Inf"
+        )
+  )
+})

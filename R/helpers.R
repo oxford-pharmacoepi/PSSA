@@ -148,3 +148,18 @@ redundant_fun <- function() {
   gt::gt(data)
   CDMConnector::cdmDisconnect(cdm = cdm)
 }
+
+# empty output of visOmopTable()
+
+emptyResultTable <- function(type) {
+x <- dplyr::tibble(`Table has no data` = character())
+if (type == "gt") {
+  result <- gt::gt(x)
+} else if (type == "flextable") {
+  result <- flextable::flextable(x)
+} else {
+  result <- x
+}
+result
+}
+

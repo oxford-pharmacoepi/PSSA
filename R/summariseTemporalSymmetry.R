@@ -23,7 +23,7 @@
 #'                                  name = "joined_cohorts",
 #'                                  indexTable = "cohort_1",
 #'                                  markerTable = "cohort_2")
-#' temporal_symmetry <- summariseTemporalSymmetry(cohort = cdm$joined_cohorts)
+#' temporal_symmetry <- summariseTemporalSymmetry(cohort = cdm$joined_cohorts, minCellCount = 0)
 #' CDMConnector::cdmDisconnect(cdm)
 #' }
 #'
@@ -31,7 +31,6 @@ summariseTemporalSymmetry <- function(cohort,
                                       cohortId = NULL,
                                       timescale = "month",
                                       minCellCount = 5) {
-
   # checks
   checkInputSummariseTemporalSymmetry(cohort = cohort,
                                       cohortId = cohortId,
@@ -45,8 +44,8 @@ summariseTemporalSymmetry <- function(cohort,
   cohort_settings <- omopgenerics::settings(cohort)|>
     dplyr::mutate(timescale = .env$timescale) |>
     dplyr::select(-c("index_id", "marker_id", "index_name", "marker_name"))
-  settings <- c("days_prior_observation", "washout_window", "index_marker_gap",
-                "combination_window", "timescale")
+  settings <- c("cohort_date_range", "days_prior_observation", "washout_window", "index_marker_gap",
+                "combination_window", "moving_average_restriction", "timescale")
 
   output <- cohort %>%
     dplyr::mutate(time = as.numeric(!!CDMConnector::datediff(
@@ -89,7 +88,7 @@ summariseTemporalSymmetry <- function(cohort,
     dplyr::mutate(variable_name  = "temporal_symmetry",
                   variable_level = as.character(.data$variable_level),
                   estimate_value = as.character(.data$estimate_value),
-                  strata_name = "overall", #to change
+                  strata_name = "overall",
                   strata_level = "overall",
                   additional_name = "overall",
                   additional_level = "overall",

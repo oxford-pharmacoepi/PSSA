@@ -44,7 +44,7 @@ plotTemporalSymmetry <- function(result,
                                  scales = scales)
 
   plot_data <- result |>
-    visOmopResults::splitNameLevel() |>
+    visOmopResults::splitGroup() |>
     dplyr::select(.data$index_name, .data$marker_name, .data$variable_name, .data$variable_level, .data$estimate_name, .data$estimate_value, .data$additional_level, .data$additional_name) |>
     dplyr::group_by(.data$estimate_name) |>
     dplyr::mutate(row = dplyr::row_number()) |>

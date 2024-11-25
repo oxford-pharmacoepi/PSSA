@@ -137,8 +137,6 @@ checksFormatSequenceSymmetry <- function(type, crude, adjusted, studyPopulation,
   }
   ## Type
   checkType(type, errorMessage)
-  ## .options
-  checkOptions(.options, errorMessage)
   # Report errors
   checkmate::reportAssertions(collection = errorMessage)
 }
@@ -357,21 +355,6 @@ checkType <- function(type, errorMessage) {
 checkSingleBoolean <- function(splitGroup, errorMessage) {
   checkmate::assertLogical(splitGroup, any.missing = FALSE, len = 1,
                            add = errorMessage)
-}
-
-checkOptions <- function(.options, errorMessage) {
-  allowedNames <- names(tableSequenceRatiosOptions())
-  optionsNames <- names(.options)
-  checkmate::assertList(.options, null.ok = TRUE, any.missing = TRUE,
-                        types = c("numeric", "logical", "character", "list"),
-                        add = errorMessage)
-  names_id <- optionsNames %in% allowedNames
-  if(!all(names_id)) {
-    errorMessage$push(
-      paste0("The following elements are not supported arguments for .options: ",
-             paste0(optionsNames[!names_id], collapse = ", "))
-    )
-  }
 }
 
 checkXLim <- function(xlim, errorMessage) {

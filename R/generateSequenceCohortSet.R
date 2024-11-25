@@ -293,7 +293,7 @@ generateSequenceCohortSet <- function(cdm,
     dplyr::distinct() |>
     dplyr::mutate(cohort_date_range = !!paste0("(",cohortDateRange[[1]], ",",
                                              cohortDateRange[[2]], ")"),
-                  days_prior_observation = !!daysPriorObservation,
+                  days_prior_observation = !!format(daysPriorObservation, nsmall = 0),
                   washout_window = !!format(washoutWindow, nsmall = 0),
                   index_marker_gap = !!format(indexMarkerGap, nsmall = 0),
                   combination_window = !!paste0("(",combinationWindow[[1]], ",",

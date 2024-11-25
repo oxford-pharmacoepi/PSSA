@@ -82,7 +82,7 @@ summariseSequenceRatios <- function(cohort,
         dplyr::filter(.data$index_id == i & .data$marker_id == j) |>
         dplyr::pull("nsr")
       asr <- csr/nsr
-      counts <- getConfidenceInterval(temporary_cohort,
+      counts <- getConfidenceInterval(table = temporary_cohort,
                                       nsr = nsr,
                                       confidenceInterval = confidenceInterval) |>
         dplyr::select(-c("index_first", "marker_first"))

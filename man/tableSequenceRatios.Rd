@@ -6,36 +6,28 @@
 \usage{
 tableSequenceRatios(
   result,
+  estimateName = character(),
+  header = character(),
+  groupColumn = character(),
   type = "gt",
-  estimateNameFormat = c(`N (\%)` = "<count> (<percentage> \%)", `SR (CI)` =
-    "<point_estimate> (<lower_CI> - <upper_CI>)"),
-  style = "default",
-  studyPopulation = TRUE,
-  cdmName = TRUE,
-  .options = NULL
+  hide = "variable_level"
 )
 }
 \arguments{
 \item{result}{A sequence_symmetry object.}
 
-\item{type}{Type of desired formatted table, possibilities: "gt",
-"flextable", "tibble".}
+\item{estimateName}{A named list of estimate names to join.
+See visOmopResults package for more information on how to use this parameter.}
 
-\item{estimateNameFormat}{The columns that the user wishes to see for the
-formatted table, by default it would display both the counts and sequence ratios.}
+\item{header}{A vector specifying the elements to include in the header.
+See visOmopResults package for more information on how to use this parameter.}
 
-\item{style}{Named list that specifies how to style the different parts of a
-gt table or flextable. See visOmopResults package for more information on
-how to define a style. Alternatively, use "default" to get visOmopResults
-style, or NULL for gt/flextable default styling.}
+\item{groupColumn}{Columns to use as group labels.
+See visOmopResults package for more information on how to use this parameter.}
 
-\item{studyPopulation}{whether to report the study population.}
+\item{type}{The desired format of the output table.}
 
-\item{cdmName}{whether to report database names.}
-
-\item{.options}{named list with additional formatting options.
-tableSequenceRatiosOptions() shows allowed arguments and
-their default values.}
+\item{hide}{Columns to drop from the output table.}
 }
 \value{
 A formatted version of the sequence_symmetry object.
@@ -56,6 +48,5 @@ res <- summariseSequenceRatios(cohort = cdm$joined_cohort)
 gtResult <- tableSequenceRatios(res)
 CDMConnector::cdmDisconnect(cdm = cdm)
 }
-
 
 }

@@ -31,7 +31,6 @@ summariseTemporalSymmetry <- function(cohort,
                                       cohortId = NULL,
                                       timescale = "month",
                                       minCellCount = 5) {
-
   # checks
   checkInputSummariseTemporalSymmetry(cohort = cohort,
                                       cohortId = cohortId,

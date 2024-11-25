@@ -46,6 +46,8 @@ Suggests:
     tidyselect,
     knitr,
     dbplyr (>= 2.5.0),
+    flextable,
+    gt,
     ggplot2,
     rmarkdown
 Imports: 
@@ -62,8 +64,6 @@ Imports:
     duckdb,
     here,
     omopgenerics (>= 0.4.0),
-    flextable,
-    gt,
     DrugUtilisation (>= 0.7.0),
     CodelistGenerator (>= 3.1.0)
 Config/testthat/edition: 3

@@ -6,18 +6,14 @@
 \usage{
 tableSequenceRatios(
   result,
-  estimateName = character(),
-  header = character(),
-  groupColumn = character(),
+  header = "marker_cohort_name",
+  groupColumn = "cdm_name",
   type = "gt",
   hide = "variable_level"
 )
 }
 \arguments{
 \item{result}{A sequence_symmetry object.}
-
-\item{estimateName}{A named list of estimate names to join.
-See visOmopResults package for more information on how to use this parameter.}
 
 \item{header}{A vector specifying the elements to include in the header.
 See visOmopResults package for more information on how to use this parameter.}

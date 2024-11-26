@@ -102,9 +102,10 @@ summariseTemporalSymmetry <- function(cohort,
   setting <- output_sum |>
     dplyr::distinct(dplyr::across(dplyr::all_of(c(settings, "cdm_name")))) |>
     dplyr::mutate(result_id = as.integer(dplyr::row_number()),
-                  result_type = "sequence_ratios",
+                  result_type = "temporal_symmetry",
                   package_name = "CohortSymmetry",
-                  package_version = as.character(utils::packageVersion("CohortSymmetry")))
+                  package_version = as.character(utils::packageVersion("CohortSymmetry")),
+                  timescale = .env$timescale)
 
   output_sum <- output_sum |>
     dplyr::left_join(setting, by = c("cdm_name", "days_prior_observation", "washout_window",

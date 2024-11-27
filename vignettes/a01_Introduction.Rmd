@@ -51,7 +51,7 @@ The CohortSymmetry package works with data mapped to the OMOP CDM. Hence, the in
 
 ```{r message= FALSE, warning=FALSE}
 cdm <- emptyCdmReference(cdmName = "mock") |>
-  mockPerson(nPerson = 1000) |>
+  mockPerson(nPerson = 100) |>
   mockObservationPeriod() |>
   mockCohort(
     name = "index_cohort",
@@ -74,7 +74,6 @@ cdm$index_cohort |>
 
 cdm$marker_cohort |> 
   dplyr::glimpse()
-
 ```
 
 Once we have established a connection to the database, we can use the `generateSequenceCohortSet()` function to find the intersection of the two cohorts. This function will provide us with the individuals who appear in both cohorts, which will be named **intersect** - another cohort in the cdm reference.
@@ -119,9 +118,7 @@ tableSequenceRatios(result)
 Or create a plot with the adjusted sequence ratios:
 
 ```{r message= FALSE, warning=FALSE}
-plotSequenceRatios(result = result,
-                  onlyaSR = T,
-                  colours = "black")
+plotSequenceRatios(result = result)
 ```
 
 ## As a diagram

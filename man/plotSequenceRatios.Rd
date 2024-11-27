@@ -6,22 +6,26 @@
 \usage{
 plotSequenceRatios(
   result,
-  onlyaSR = FALSE,
+  onlyASR = FALSE,
   plotTitle = NULL,
   labs = c("SR", "Drug Pairs"),
-  colours = c("red", "blue")
+  colours = c("red", "blue"),
+  facet = NULL
 )
 }
 \arguments{
 \item{result}{Table output from summariseSequenceRatios.}
 
-\item{onlyaSR}{If the only SR to be plotted is the adjusted SR.}
+\item{onlyASR}{If set to be TRUE then only adjusted SR will be plotted.
+Otherwise if it is set to be FALSE then both adjusted and crude SR will be plotted.}
 
-\item{plotTitle}{Title of the plot, if NULL no title will be plotted.}
+\item{plotTitle}{Title of the plot, if NULL no title will be included in the plot.}
 
 \item{labs}{Axis labels for the plot.}
 
-\item{colours}{Colours for both parts of the plot, pre- and post- time 0.}
+\item{colours}{Colours for sequence ratio.}
+
+\item{facet}{The variable to facet by.}
 }
 \value{
 A plot for the sequence ratios of index and marker cohorts.
@@ -32,7 +36,6 @@ It provides a ggplot of the sequence ratios of index and marker cohorts.
 \examples{
 \donttest{
 library(CohortSymmetry)
-
 cdm <- mockCohortSymmetry()
 cdm <- generateSequenceCohortSet(cdm = cdm,
                                  indexTable = "cohort_1",

@@ -35,6 +35,9 @@ plotTemporalSymmetry <- function(result,
                                  xlim = c(-12, 12),
                                  colours = c("blue", "red"),
                                  scales = "free") {
+
+  rlang::check_installed("ggplot2")
+
   # checks
   checkInputPlotTemporalSymmetry(result = result,
                                  plotTitle = plotTitle,

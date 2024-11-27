@@ -35,6 +35,9 @@ plotSequenceRatios <- function(result,
                                colours = c("red", "blue"),
                                facet = NULL
                                ){
+
+  rlang::check_installed("ggplot2")
+
   # validate checks
   result <- omopgenerics::validateResultArgument(result)
 

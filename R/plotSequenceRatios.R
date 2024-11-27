@@ -99,6 +99,8 @@ plotSequenceRatios <- function(result,
       ggplot2::labs(title = plotTitle) +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
+      ggplot2::geom_hline(yintercept = 1, linetype = 2) +
+      ggplot2::scale_shape_manual(values = rep(19, 5)) +
       ggplot2::scale_colour_manual(values = custom_colors) +
       ggplot2::theme(panel.border = ggplot2::element_blank(),
                      axis.line = ggplot2::element_line(),
@@ -127,6 +129,8 @@ plotSequenceRatios <- function(result,
       ggplot2::labs(title = plotTitle) +
       ggplot2::coord_flip() +
       ggplot2::theme_bw() +
+      ggplot2::geom_hline(yintercept = 1, linetype = 2) +
+      ggplot2::scale_shape_manual(values = rep(19, 5)) +
       ggplot2::scale_colour_manual(values = custom_colors) +
       ggplot2::theme(panel.border = ggplot2::element_blank(),
                      axis.line = ggplot2::element_line(),

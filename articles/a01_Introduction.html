@@ -114,7 +114,7 @@ two mock cohorts: the <strong>index_cohort</strong> and the
 <strong>marker_cohort</strong>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://darwin-eu.github.io/omopgenerics/reference/emptyCdmReference.html" class="external-link">emptyCdmReference</a></span><span class="op">(</span>cdmName <span class="op">=</span> <span class="st">"mock"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockPerson.html" class="external-link">mockPerson</a></span><span class="op">(</span>nPerson <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockPerson.html" class="external-link">mockPerson</a></span><span class="op">(</span>nPerson <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockObservationPeriod.html" class="external-link">mockObservationPeriod</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ohdsi.github.io/omock/reference/mockCohort.html" class="external-link">mockCohort</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"index_cohort"</span>,</span>
@@ -138,9 +138,9 @@ two mock cohorts: the <strong>index_cohort</strong> and the
 <span><span class="co">#&gt; Columns: 4</span></span>
 <span><span class="co">#&gt; Database: DuckDB v1.1.3-dev165 [unknown@Linux 6.5.0-1025-azure:R 4.4.2/:memory:]</span></span>
 <span><span class="co">#&gt; $ cohort_definition_id <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
-<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 3, 3, 5, 5, 6, 7, 8, 8, 11, 13, 13, 15, 16, 16…</span></span>
-<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2002-11-28, 1996-05-02, 1997-06-18, 2004-06-30, …</span></span>
-<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2006-09-05, 1997-06-17, 1998-03-06, 2004-10-22, …</span></span>
+<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 2, 6, 7, 10, 13, 13, 14, 14, 15, 17, 18,…</span></span>
+<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2001-12-18, 2002-09-22, 2004-03-21, 2005-11-04, …</span></span>
+<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2002-09-21, 2004-03-20, 2006-04-14, 2011-05-15, …</span></span>
 <span></span>
 <span><span class="va">cdm</span><span class="op">$</span><span class="va">marker_cohort</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -148,9 +148,9 @@ two mock cohorts: the <strong>index_cohort</strong> and the
 <span><span class="co">#&gt; Columns: 4</span></span>
 <span><span class="co">#&gt; Database: DuckDB v1.1.3-dev165 [unknown@Linux 6.5.0-1025-azure:R 4.4.2/:memory:]</span></span>
 <span><span class="co">#&gt; $ cohort_definition_id <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
-<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 3, 4, 7, 8, 8, 9, 9, 9, 9, 10, 11, 12, 13, 13,…</span></span>
-<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2002-07-27, 1993-02-02, 2019-07-08, 1996-08-14, …</span></span>
-<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2006-10-16, 2007-04-16, 2019-07-26, 1999-10-08, …</span></span></code></pre></div>
+<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 2, 3, 3, 5, 5, 6, 6, 6, 8, 8, 8, 9, 9, 9, 1…</span></span>
+<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2002-05-21, 2002-06-14, 2005-01-20, 1987-03-16, …</span></span>
+<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2002-06-13, 2008-10-02, 2012-07-21, 1991-09-13, …</span></span></code></pre></div>
 <p>Once we have established a connection to the database, we can use the
 <code><a href="../reference/generateSequenceCohortSet.html">generateSequenceCohortSet()</a></code> function to find the
 intersection of the two cohorts. This function will provide us with the
@@ -176,11 +176,11 @@ cohort with the addition of two extra columns: <em>index_date</em> and
 <span><span class="co">#&gt; Columns: 6</span></span>
 <span><span class="co">#&gt; Database: DuckDB v1.1.3-dev165 [unknown@Linux 6.5.0-1025-azure:R 4.4.2/:memory:]</span></span>
 <span><span class="co">#&gt; $ cohort_definition_id <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
-<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 42, 108, 124, 128, 190, 217, 251, 296, 325, 343, …</span></span>
-<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 1987-01-14, 1973-06-03, 1992-09-12, 2015-03-10, …</span></span>
-<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 1987-08-06, 1973-11-14, 1993-11-07, 2016-03-07, …</span></span>
-<span><span class="co">#&gt; $ index_date           <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 1987-01-14, 1973-11-14, 1993-11-07, 2015-03-10, …</span></span>
-<span><span class="co">#&gt; $ marker_date          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 1987-08-06, 1973-06-03, 1992-09-12, 2016-03-07, …</span></span></code></pre></div>
+<span><span class="co">#&gt; $ subject_id           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 28, 23, 33, 40, 43, 45, 51, 48, 17, 44, 65, 75…</span></span>
+<span><span class="co">#&gt; $ cohort_start_date    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2005-01-20, 1974-01-16, 2004-06-18, 2006-02-03, …</span></span>
+<span><span class="co">#&gt; $ cohort_end_date      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2005-11-04, 1982-01-08, 2006-02-27, 2006-02-11, …</span></span>
+<span><span class="co">#&gt; $ index_date           <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2005-11-04, 1974-01-16, 2006-02-27, 2006-02-11, …</span></span>
+<span><span class="co">#&gt; $ marker_date          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2005-01-20, 1982-01-08, 2004-06-18, 2006-02-03, …</span></span></code></pre></div>
 <p>Once we have the intersect cohort, you are able to explore the
 temporal symmetry by using <code>summariseTemporalSymmetry</code> and
 <code><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry()</a></code>:</p>
@@ -188,19 +188,19 @@ temporal symmetry by using <code>summariseTemporalSymmetry</code> and
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summariseTemporalSymmetry.html">summariseTemporalSymmetry</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">intersect</span>, </span>
 <span>                                    timescale <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 18</span></span>
+<span><span class="co">#&gt; Rows: 9</span></span>
 <span><span class="co">#&gt; Columns: 13</span></span>
-<span><span class="co">#&gt; $ result_id        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1</span></span>
+<span><span class="co">#&gt; $ result_id        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1</span></span>
 <span><span class="co">#&gt; $ cdm_name         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "mock", "mock", "mock", "mock", "mock", "mock", "mock…</span></span>
 <span><span class="co">#&gt; $ group_name       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "index_name &amp;&amp;&amp; marker_name", "index_name &amp;&amp;&amp; marker_…</span></span>
 <span><span class="co">#&gt; $ group_level      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "index_cohort &amp;&amp;&amp; marker_cohort", "index_cohort &amp;&amp;&amp; m…</span></span>
 <span><span class="co">#&gt; $ strata_name      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span><span class="co">#&gt; $ strata_level     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span><span class="co">#&gt; $ variable_name    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "temporal_symmetry", "temporal_symmetry", "temporal_s…</span></span>
-<span><span class="co">#&gt; $ variable_level   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "6", "10", "18", "-4", "0", "-5", "5", "2", "3", "7",…</span></span>
+<span><span class="co">#&gt; $ variable_level   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "-2", "7", "-5", "2", "-3", "1", "-1", "0", "-4"</span></span>
 <span><span class="co">#&gt; $ estimate_name    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "count", "count", "count", "count", "count", "count",…</span></span>
 <span><span class="co">#&gt; $ estimate_type    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "integer", "integer", "integer", "integer", "integer"…</span></span>
-<span><span class="co">#&gt; $ estimate_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "-", "-", "-", "10", "134", "-", "-", "9", "14", "-",…</span></span>
+<span><span class="co">#&gt; $ estimate_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "-", "-", "-", "-", "-", "-", "14", "9", "-"</span></span>
 <span><span class="co">#&gt; $ additional_name  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span><span class="co">#&gt; $ additional_level <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span></span>
@@ -225,7 +225,7 @@ corresponding confidence intervals.</p>
 <span><span class="co">#&gt; $ variable_level   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "sequence_ratio", "sequence_ratio", "sequence_ratio",…</span></span>
 <span><span class="co">#&gt; $ estimate_name    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "point_estimate", "point_estimate", "lower_CI", "uppe…</span></span>
 <span><span class="co">#&gt; $ estimate_type    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "numeric", "numeric", "numeric", "numeric", "numeric"…</span></span>
-<span><span class="co">#&gt; $ estimate_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1.17977528089888", "1445.91767261184", "0.9665793825…</span></span>
+<span><span class="co">#&gt; $ estimate_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "0.714285714285714", "Inf", "0.364603690059156", "1.3…</span></span>
 <span><span class="co">#&gt; $ additional_name  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span>
 <span><span class="co">#&gt; $ additional_level <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "overall", "overall", "overall", "overall", "overall"…</span></span></code></pre></div>
 <p>Finally, we can visualise the results using
@@ -234,9 +234,7 @@ corresponding confidence intervals.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tableSequenceRatios.html">tableSequenceRatios</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <p>Or create a plot with the adjusted sequence ratios:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSequenceRatios.html">plotSequenceRatios</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>,</span>
-<span>                  onlyaSR <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                  colours <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSequenceRatios.html">plotSequenceRatios</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a01_Introduction_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <div class="section level2">
 <h2 id="as-a-diagram">As a diagram<a class="anchor" aria-label="anchor" href="#as-a-diagram"></a>

@@ -4,10 +4,12 @@
 #' It provides a ggplot of the sequence ratios of index and marker cohorts.
 #'
 #' @param result Table output from summariseSequenceRatios.
-#' @param onlyaSR If the only SR to be plotted is the adjusted SR.
-#' @param plotTitle Title of the plot, if NULL no title will be plotted.
+#' @param onlyASR If set to be TRUE then only adjusted SR will be plotted.
+#' Otherwise if it is set to be FALSE then both adjusted and crude SR will be plotted.
+#' @param plotTitle Title of the plot, if NULL no title will be included in the plot.
 #' @param labs Axis labels for the plot.
-#' @param colours Colours for both parts of the plot, pre- and post- time 0.
+#' @param colours Colours for sequence ratio.
+#' @param facet The variable to facet by.
 #'
 #' @return A plot for the sequence ratios of index and marker cohorts.
 #'
@@ -16,7 +18,6 @@
 #' @examples
 #' \donttest{
 #' library(CohortSymmetry)
-#'
 #' cdm <- mockCohortSymmetry()
 #' cdm <- generateSequenceCohortSet(cdm = cdm,
 #'                                  indexTable = "cohort_1",
@@ -28,86 +29,106 @@
 #' CDMConnector::cdmDisconnect(cdm = cdm)
 #' }
 plotSequenceRatios <- function(result,
-                               onlyaSR = FALSE,
+                               onlyASR = FALSE,
                                plotTitle = NULL,
                                labs = c("SR", "Drug Pairs"),
-                               colours = c("red", "blue")
-                               ) {
-  # checks
-  checkInputPlotSequenceRatios(result = result,
-                               onlyaSR = onlyaSR,
-                               plotTitle = plotTitle,
-                               labs = labs,
-                               colours = colours)
+                               colours = c("red", "blue"),
+                               facet = NULL
+                               ){
+  # validate checks
+  result <- omopgenerics::validateResultArgument(result)
 
+  # check settings
   result <- result |>
-    visOmopResults::splitGroup()
-
-  sr_tidy <- result |>
-    visOmopResults::filterSettings(.data$result_type == "sequence_ratios") |>
-    dplyr::select(-c("cdm_name", "strata_name", "strata_level", "variable_level")) |>
-    visOmopResults::splitAdditional() |>
-    tidyr::pivot_wider(names_from = "estimate_name", values_from = "estimate_value") |>
-    dplyr::mutate(group = paste0(.data$index_cohort_name, " -> ", .data$marker_cohort_name)) |>
-    dplyr::select(-c("index_cohort_name", "marker_cohort_name")) |>
-    dplyr::mutate(
-      point_estimate = as.numeric(.data$point_estimate),
-      lower_CI = as.numeric(.data$lower_CI),
-      upper_CI = as.numeric(.data$upper_CI),
-      variable_name = as.factor(.data$variable_name)
-    ) |>
-    dplyr::select(tidyselect::where( ~ dplyr::n_distinct(.) > 1)|.data$group) |>
-    dplyr::rename(
-      !!labs[1] := "point_estimate",
-      !!labs[2] := "group"
+    visOmopResults::filterSettings(
+      .data$result_type == "sequence_ratios"
     )
 
-  if(onlyaSR) {
-    sr_tidy <- sr_tidy |>
+  if (nrow(result) == 0) {
+    cli::cli_warn("`result` object does not contain any `result_type == 'sequence_ratios'` information.")
+  }
+
+  if (!is.logical(onlyASR)) {
+    cli::cli_abort("The parameter onlyASR has to be either True or False.")
+  }
+
+  if(onlyASR) {
+    checkmate::assert_character(colours,
+                                len = 1)
+  } else {
+    checkmate::assert_character(colours,
+                                len = 2)
+  }
+
+  data <- result |>
+    omopgenerics::tidy() |>
+    dplyr::mutate(
+      pair = paste0(.data$index_cohort_name, "->", .data$marker_cohort_name)
+    ) |>
+    dplyr::filter(.data$variable_level == "sequence_ratio") |>
+    dplyr::select("pair", "variable_name", "point_estimate",
+                  "lower_CI", "upper_CI", "cdm_name",
+                  "cohort_date_range", "combination_window",
+                  "confidence_interval", "days_prior_observation",
+                  "index_marker_gap", "moving_average_restriction",
+                  "washout_window")
+
+  if (onlyASR){
+    data <- data |>
       dplyr::filter(.data$variable_name == "adjusted")
-    colours = c("adjusted" = colours[1])
-  } else {
-    sr_tidy <- sr_tidy |>
-      dplyr::filter(.data$variable_name == "adjusted"|.data$variable_name == "crude")
-    colours = c("crude" = colours[1], "adjusted" = colours[2])
-  }
 
-  facet_wrap_vars <- colnames(sr_tidy)[! colnames(sr_tidy) %in% c(labs[2], labs[1], "lower_CI", "upper_CI", "variable_name", "count", "percentage", "variable_name", "estimate_type")]
-  for(i in facet_wrap_vars) {
-    sr_tidy <- sr_tidy |>
-      dplyr::mutate(!!i := paste0(i, " = ", .data[[i]]))
-  }
+    custom_colors <- c("adjusted" = colours)
 
-  if(length(facet_wrap_vars) == 0) {
-    ggplot2::ggplot(data = sr_tidy, ggplot2::aes(
-      x = .data[[labs[1]]], y = .data[[labs[2]]], group = .data$variable_name)) +
-      ggplot2::geom_errorbarh(ggplot2::aes(xmin = .data$lower_CI, xmax = .data$upper_CI, colour = .data$variable_name), height = 0.2) +
-      ggplot2::geom_point(ggplot2::aes(colour = .data$variable_name, shape = .data$variable_name), size = 3) +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = 1), linetype = 2) +
-      ggplot2::scale_shape_manual(values = rep(19, 5)) +
-      ggplot2::scale_colour_manual(values = colours) +
+    p <- visOmopResults::scatterPlot(
+      data,
+      x = "pair",
+      y = "point_estimate",
+      line = FALSE,
+      point = TRUE,
+      ribbon = FALSE,
+      ymin = "lower_CI",
+      ymax = "upper_CI",
+      facet = facet,
+      colour = "variable_name"
+    ) +
+      ggplot2::ylab(labs[1]) +
+      ggplot2::xlab(labs[2]) +
       ggplot2::labs(title = plotTitle) +
+      ggplot2::coord_flip() +
       ggplot2::theme_bw() +
+      ggplot2::scale_colour_manual(values = custom_colors) +
       ggplot2::theme(panel.border = ggplot2::element_blank(),
                      axis.line = ggplot2::element_line(),
                      legend.title = ggplot2::element_blank(),
-                     plot.title = ggplot2::element_text(hjust = 0.5)
-      )
+                     plot.title = ggplot2::element_text(hjust = 0.5))
+
   } else {
-    ggplot2::ggplot(data = sr_tidy, ggplot2::aes(
-      x = .data[[labs[1]]], y = .data[[labs[2]]], group = .data$variable_name)) +
-      ggplot2::geom_errorbarh(ggplot2::aes(xmin = .data$lower_CI, xmax = .data$upper_CI, colour = .data$variable_name), height = 0.2) +
-      ggplot2::geom_point(ggplot2::aes(colour = .data$variable_name, shape = .data$variable_name), size = 3) +
-      ggplot2::geom_vline(ggplot2::aes(xintercept = 1), linetype = 2) +
-      ggplot2::scale_shape_manual(values = rep(19, 5)) +
-      ggplot2::scale_colour_manual(values = colours) +
-      ggplot2::facet_wrap(stats::as.formula(paste("~", paste(facet_wrap_vars, collapse = " + ")))) +
+
+    custom_colors <- c("adjusted" = colours[1],
+                       "crude" = colours[2])
+
+    p <- visOmopResults::scatterPlot(
+      data,
+      x = "pair",
+      y = "point_estimate",
+      line = FALSE,
+      point = TRUE,
+      ribbon = FALSE,
+      ymin = "lower_CI",
+      ymax = "upper_CI",
+      facet = facet,
+      colour = "variable_name"
+    ) +
+      ggplot2::ylab(labs[1]) +
+      ggplot2::xlab(labs[2]) +
       ggplot2::labs(title = plotTitle) +
+      ggplot2::coord_flip() +
       ggplot2::theme_bw() +
+      ggplot2::scale_colour_manual(values = custom_colors) +
       ggplot2::theme(panel.border = ggplot2::element_blank(),
                      axis.line = ggplot2::element_line(),
                      legend.title = ggplot2::element_blank(),
-                     plot.title = ggplot2::element_text(hjust = 0.5)
-      )
+                     plot.title = ggplot2::element_text(hjust = 0.5))
   }
+  return(p)
 }

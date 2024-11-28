@@ -32,10 +32,17 @@ summariseSequenceRatios <- function(cohort,
                                     minCellCount = 5) {
 
   # checks
-  checkInputSummariseSequenceRatios(cohort = cohort,
-                                    cohortId = cohortId,
-                                    confidenceInterval = confidenceInterval,
-                                    minCellCount = minCellCount)
+  cdm <- omopgenerics::cdmReference(cohort)
+  cdm <- omopgenerics::validateCdmArgument(cdm = cdm)
+  cohortId <- omopgenerics::validateCohortIdArgument({{cohortId}}, cohort)
+  omopgenerics::assertNumeric(confidenceInterval,
+                              min = 1,
+                              max = 99,
+                              length = 1)
+  omopgenerics::assertNumeric(minCellCount,
+                              min = 0,
+                              max = 99999999,
+                              length = 1)
 
   if (is.null(cohortId)){
     cohortId <- cohort |>

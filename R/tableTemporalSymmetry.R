@@ -29,10 +29,10 @@
 #' }
 #'
 tableTemporalSymmetry <- function(result,
-                                header = "variable_level",
-                                groupColumn = c("cdm_name", "index_name"),
-                                type = "gt",
-                                hide = "variable_name") {
+                                  header = "variable_level",
+                                  groupColumn = c("cdm_name", "index_name"),
+                                  type = "gt",
+                                  hide = "variable_name"){
 
   rlang::check_installed("flextable")
   rlang::check_installed("gt")

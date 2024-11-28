@@ -40,6 +40,14 @@ plotSequenceRatios <- function(result,
 
   # validate checks
   result <- omopgenerics::validateResultArgument(result)
+  omopgenerics::assertCharacter(plotTitle, length = 1, null = T)
+  omopgenerics::assertCharacter(labs, length = 2)
+  omopgenerics::assertLogical(onlyASR, length = 1)
+  if(onlyASR) {
+    omopgenerics::assertCharacter(colours, length = 1)
+  } else {
+    omopgenerics::assertCharacter(colours, length = 2)
+  }
 
   # check settings
   result <- result |>
@@ -49,18 +57,6 @@ plotSequenceRatios <- function(result,
 
   if (nrow(result) == 0) {
     cli::cli_warn("`result` object does not contain any `result_type == 'sequence_ratios'` information.")
-  }
-
-  if (!is.logical(onlyASR)) {
-    cli::cli_abort("The parameter onlyASR has to be either True or False.")
-  }
-
-  if(onlyASR) {
-    checkmate::assert_character(colours,
-                                len = 1)
-  } else {
-    checkmate::assert_character(colours,
-                                len = 2)
   }
 
   data <- result |>

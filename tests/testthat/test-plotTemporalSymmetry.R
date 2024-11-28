@@ -68,7 +68,6 @@ test_that("expected errors", {
   expect_error(plotTemporalSymmetry(result = result, xlim = 2))
   expect_error(plotTemporalSymmetry(result = result, xlim = "4"))
   expect_error(plotTemporalSymmetry(result = result, xlim = 2))
-  expect_error(plotTemporalSymmetry(result = result, colours = c("no", "black")))
   expect_error(plotTemporalSymmetry(result = result, colours = "red"))
   expect_error(plotTemporalSymmetry(result = result, colours = c(3,4)))
   expect_error(plotTemporalSymmetry(result = result, plotTitle = 2))

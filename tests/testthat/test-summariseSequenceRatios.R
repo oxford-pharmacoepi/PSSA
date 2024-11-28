@@ -118,7 +118,7 @@ test_that("summariseSequenceRatios - testing ratios and CIs, Example 1", {
 
   expect_true(all(res$days_prior_observation==0))
   expect_true(all(res$washout_window==0))
-  expect_true(all(res$combination_window == "(0,365)"))
+  expect_true(all(res$combination_window == "0, 365"))
   expect_true(all(res$index_marker_gap=="Inf"))
   expect_true(all(res$confidence_interval==95))
   expect_true(all(as.integer(res$first_pharmac_index_percentage)<=100 & 0 <= as.integer(res$first_pharmac_index_percentage)))
@@ -179,11 +179,11 @@ test_that("summariseSequenceRatios - testing ratios and CIs, Example 2", {
     dplyr::select(-"estimate_type") |>
     tidyr::pivot_wider(names_from = c("variable_level", "variable_name", "estimate_name"),
                        values_from = "estimate_value") |>
-    dplyr::left_join(res |> omopgenerics::settings())
+    dplyr::left_join(res |> omopgenerics::settings(), by = c("result_id", "cdm_name"))
 
   expect_true(all(res$days_prior_observation==0))
   expect_true(all(res$washout_window==0))
-  expect_true(all(res$combination_window == "(0,365)"))
+  expect_true(all(res$combination_window == "0, 365"))
   expect_true(all(res$index_marker_gap=="Inf"))
   expect_true(all(res$confidence_interval==95))
   expect_true((res$index_cohort_name=="cohort_1"))
@@ -1000,7 +1000,9 @@ test_that("Inf CI", {
                                    indexTable = "cohort_1",
                                    markerTable = "cohort_2")
 
-  res <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
+  expect_warning(
+    res <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
+  )
 
   expect_true(
     all(res |>

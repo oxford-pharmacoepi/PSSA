@@ -92,37 +92,6 @@ checkInputSummariseSequenceRatios <- function(cohort,
   checkmate::reportAssertions(collection = errorMessage)
 }
 
-checkInputSummariseTemporalSymmetry <- function(cohort,
-                                                cohortId,
-                                                timescale,
-                                                minCellCount) {
-
-  # Check cdm objects, writing schema and index/marker tables
-  cdm <- omopgenerics::cdmReference(cohort)
-  checkCdm(cdm)
-
-  cohort_row <- cohort |> dplyr::tally() |> dplyr::pull()
-  if (cohort_row <=0){
-    cli::cli_abort("Aborted! The cohort has no rows, please revisit the cohort")
-  }
-
-  checkCohortIds(cohort = cohort,
-                 cohortId = cohortId,
-                 errorMessage = errorMessage)
-
-  # Check the rest of inputs
-  errorMessage <- checkmate::makeAssertCollection()
-
-  # Check minCellCount
-  checkMinCellCount(minCellCount, errorMessage)
-
-  # Check timescale
-  checkTimeScale(timescale, errorMessage)
-
-  # Report errors
-  checkmate::reportAssertions(collection = errorMessage)
-}
-
 checkSequenceSymmetry <- function(result) {
   omopgenerics::newSummarisedResult(result)
 }

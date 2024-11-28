@@ -32,11 +32,18 @@ summariseTemporalSymmetry <- function(cohort,
                                       timescale = "month",
                                       minCellCount = 5) {
   # checks
-  checkInputSummariseTemporalSymmetry(cohort = cohort,
-                                      cohortId = cohortId,
-                                      timescale = timescale,
-                                      minCellCount = minCellCount)
+  cdm <- omopgenerics::cdmReference(cohort)
+  cdm <- omopgenerics::validateCdmArgument(cdm = cdm)
+  cohortId <- omopgenerics::validateCohortIdArgument({{cohortId}}, cohort)
+  omopgenerics::assertChoice(timescale,
+                             choices = c("day", "week","month", "year"),
+                             length = 1)
+  omopgenerics::assertNumeric(minCellCount,
+                              min = 0,
+                              max = 99999999,
+                              length = 1)
 
+  # pulling out data
   index_names <- attr(cohort, "cohort_set") |>
     dplyr::select("cohort_definition_id", "index_name", "index_id", "marker_id")
   marker_names <- attr(cohort, "cohort_set") |>
@@ -47,6 +54,7 @@ summariseTemporalSymmetry <- function(cohort,
   settings <- c("cohort_date_range", "days_prior_observation", "washout_window", "index_marker_gap",
                 "combination_window", "moving_average_restriction", "timescale")
 
+  # computing the output
   output <- cohort %>%
     dplyr::mutate(time = as.numeric(!!CDMConnector::datediff(
       "index_date", "marker_date", interval = timescale))) |>
@@ -107,6 +115,7 @@ summariseTemporalSymmetry <- function(cohort,
                   package_version = as.character(utils::packageVersion("CohortSymmetry")),
                   timescale = .env$timescale)
 
+  # new summarise result
   output_sum <- output_sum |>
     dplyr::left_join(setting, by = c("cdm_name", "days_prior_observation", "washout_window",
                                      "index_marker_gap", "combination_window", "timescale")) |>

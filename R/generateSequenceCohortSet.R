@@ -42,34 +42,34 @@
 #'  CDMConnector::cdmDisconnect(cdm = cdm)
 #' }
 generateSequenceCohortSet <- function(cdm,
-                              indexTable,
-                              markerTable,
-                              name,
-                              indexId = NULL,
-                              markerId = NULL,
-                              cohortDateRange = as.Date(c(NA, NA)),
-                              daysPriorObservation = 0,
-                              washoutWindow = 0,
-                              indexMarkerGap = Inf,
-                              combinationWindow = c(0,365),
-                              movingAverageRestriction = 548){
-  ### checks
-  checkInputGenerateSequenceCohortSet(
-    cdm = cdm,
-    indexTable = indexTable,
-    markerTable = markerTable,
-    name = name,
-    indexId = indexId,
-    markerId = markerId,
-    cohortDateRange = cohortDateRange,
-    daysPriorObservation = daysPriorObservation,
-    washoutWindow = washoutWindow,
-    indexMarkerGap = indexMarkerGap,
-    combinationWindow = combinationWindow,
-    movingAverageRestriction = movingAverageRestriction
-  )
+                                      indexTable,
+                                      markerTable,
+                                      name,
+                                      indexId = NULL,
+                                      markerId = NULL,
+                                      cohortDateRange = as.Date(c(NA, NA)),
+                                      daysPriorObservation = 0,
+                                      washoutWindow = 0,
+                                      indexMarkerGap = Inf,
+                                      combinationWindow = c(0,365),
+                                      movingAverageRestriction = 548){
+  # checks
+  cdm <- omopgenerics::validateCdmArgument(cdm = cdm)
+  omopgenerics::assertCharacter(indexTable, length = 1)
+  omopgenerics::assertCharacter(markerTable, length = 1)
+  cdm[[indexTable]] <- omopgenerics::validateCohortArgument(cohort  = cdm[[indexTable]])
+  cdm[[markerTable]] <- omopgenerics::validateCohortArgument(cohort = cdm[[markerTable]])
+  name <- omopgenerics::validateNameArgument(name = name, validation = "warning")
+  indexId <- omopgenerics::validateCohortIdArgument({{indexId}}, cdm[[indexTable]])
+  markerId <- omopgenerics::validateCohortIdArgument({{markerId}}, cdm[[markerTable]])
+  omopgenerics::assertNumeric(daysPriorObservation, min = 0, max = 999999)
+  omopgenerics::assertNumeric(washoutWindow, min = 0, max = 999999)
+  omopgenerics::assertNumeric(indexMarkerGap, min = 0)
+  omopgenerics::assertNumeric(combinationWindow, length = 2)
+  combinationWindow <- omopgenerics::validateWindowArgument(window = combinationWindow, snakeCase = TRUE)
+  omopgenerics::assertNumeric(movingAverageRestriction, min = 0)
 
-  ### internal and exported parameters
+  # Change CohortDateRange
   if (any(is.na(cohortDateRange))) {
     cohortDateRange <- getcohortDateRange(
       cdm = cdm,
@@ -77,7 +77,9 @@ generateSequenceCohortSet <- function(cdm,
     )
   }
 
-  ### nsr
+  omopgenerics::assertDate(cohortDateRange, length = 2, unique = TRUE)
+
+  # nsr
   nsr_name <- omopgenerics::uniqueId()
   nsr_summary_name <- paste0(nsr_name, "_summary")
 
@@ -194,7 +196,7 @@ generateSequenceCohortSet <- function(cdm,
 
   nsr_tbl <- Reduce(dplyr::union_all, nsr_calc)
 
-  ### Preprocess both cohorts
+  # Preprocess both cohorts
   indexPreprocessed <- preprocessCohort(cdm = cdm, cohortName = indexTable,
                                         cohortId = indexId, cohortDateRange = cohortDateRange) |>
     dplyr::rename("index_id" = "cohort_definition_id",
@@ -236,7 +238,7 @@ generateSequenceCohortSet <- function(cdm,
                   "marker_end_date", "gap_to_prior_marker",
                   "marker_name", "first_date", "second_date")
 
-  ### Post-join processing
+  # Post-join processing
   cdm[[name]] <- joinedData %>%
     dplyr::mutate(
       gap = as.numeric(!!CDMConnector::datediff("index_date", "marker_date",
@@ -296,8 +298,8 @@ generateSequenceCohortSet <- function(cdm,
                   days_prior_observation = !!format(daysPriorObservation, nsmall = 0),
                   washout_window = !!format(washoutWindow, nsmall = 0),
                   index_marker_gap = !!format(indexMarkerGap, nsmall = 0),
-                  combination_window = !!paste0("(",combinationWindow[[1]], ",",
-                                                combinationWindow[[2]], ")"),
+                  combination_window = !!paste0("(",combinationWindow[[1]][1], ",",
+                                                combinationWindow[[1]][2], ")"),
                   moving_average_restriction = !!format(movingAverageRestriction, nsmall = 0)) |>
     dplyr::left_join(nsr_tbl,
                      by = c("index_id", "marker_id"),
@@ -321,16 +323,16 @@ generateSequenceCohortSet <- function(cdm,
       omopgenerics::newCohortTable(cohortSetRef = cohortSetRef,
                                    cohortAttritionRef = NULL)
 
-    ### exclusion criteria - where attrition starts
+    # exclusion criteria - where attrition starts
     # 1) within combination window
     cdm[[name]] <- cdm[[name]] %>%
-      {if (is.infinite(combinationWindow[2]))
+      {if (is.infinite(combinationWindow[[1]][2]))
         dplyr::filter(.,
-                      abs(.data$gap) > !!combinationWindow[1])
+                      abs(.data$gap) > !!combinationWindow[[1]][1])
         else
         dplyr::filter(.,
-                      abs(.data$gap) > !!combinationWindow[1] &
-                      abs(.data$gap) <= !!combinationWindow[2])
+                      abs(.data$gap) > !!combinationWindow[[1]][1] &
+                      abs(.data$gap) <= !!combinationWindow[[1]][2])
         } |>
       dplyr::compute(name = name, temporary = FALSE) |>
       omopgenerics::recordCohortAttrition(reason="Events excluded due to the prespecified combination window")

@@ -55,7 +55,6 @@ Imports:
     dplyr,
     PatientProfiles,
     rlang,
-    stringr,
     tibble,
     visOmopResults (>= 0.4.0),
     tidyr,

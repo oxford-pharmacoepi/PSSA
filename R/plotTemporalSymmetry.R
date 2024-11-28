@@ -39,12 +39,13 @@ plotTemporalSymmetry <- function(result,
   rlang::check_installed("ggplot2")
 
   # checks
-  checkInputPlotTemporalSymmetry(result = result,
-                                 plotTitle = plotTitle,
-                                 labs = labs,
-                                 xlim = xlim,
-                                 colours = colours,
-                                 scales = scales)
+  result <- omopgenerics::validateResultArgument(result = result)
+  omopgenerics::assertCharacter(plotTitle, length = 1, null = T)
+  omopgenerics::assertCharacter(labs, length = 2)
+  omopgenerics::assertNumeric(xlim, length = 2, unique = T)
+  omopgenerics::assertCharacter(colours, length = 2)
+  scales <- omopgenerics::assertChoice(scales,
+                                       choices = c("free", "fixed"))
 
   plot_data <- result |>
     visOmopResults::splitGroup() |>

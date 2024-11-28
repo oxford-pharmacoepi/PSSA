@@ -67,6 +67,9 @@ generateSequenceCohortSet <- function(cdm,
   omopgenerics::assertNumeric(indexMarkerGap, min = 0)
   omopgenerics::assertNumeric(combinationWindow, length = 2)
   combinationWindow <- omopgenerics::validateWindowArgument(window = combinationWindow, snakeCase = TRUE)
+  if(length(combinationWindow)!= 1) {
+    cli::cli_abort("combinationWindow should contain only one window.")
+  }
   omopgenerics::assertNumeric(movingAverageRestriction, min = 0)
 
   # Change CohortDateRange
@@ -298,8 +301,7 @@ generateSequenceCohortSet <- function(cdm,
                   days_prior_observation = !!format(daysPriorObservation, nsmall = 0),
                   washout_window = !!format(washoutWindow, nsmall = 0),
                   index_marker_gap = !!format(indexMarkerGap, nsmall = 0),
-                  combination_window = !!paste0("(",combinationWindow[[1]][1], ",",
-                                                combinationWindow[[1]][2], ")"),
+                  combination_window = !!paste0(unlist(combinationWindow), collapse = ", "),
                   moving_average_restriction = !!format(movingAverageRestriction, nsmall = 0)) |>
     dplyr::left_join(nsr_tbl,
                      by = c("index_id", "marker_id"),

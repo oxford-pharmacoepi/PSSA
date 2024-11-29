@@ -1,7 +1,7 @@
 Package: CohortSymmetry
 Title: Sequence Symmetry Analysis Using the Observational Medical 
     Outcomes Partnership Common Data Model
-Version: 0.1.5
+Version: 0.2.0
 Authors@R: c(
     person("Xihang", "Chen", , "xihang.chen@ndorms.ox.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-8112-8959")),

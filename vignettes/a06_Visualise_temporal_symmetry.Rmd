@@ -76,53 +76,16 @@ Let's regather the output from `summariseTemporalSymmetry()`
 temporal_symmetry <- summariseTemporalSymmetry(cohort = cdm$intersect)
 ```
 
-With this established, much like `summariseSequenceRatios()`, the object `temporal_symmetry` could then be fed into `summariseTemporalSymmetry()` to visualise the results:
+With this established, much like `summariseSequenceRatios()`, the object `temporal_symmetry` could then be fed into `tableTemporalSymmetry()` or `plotTemporalSymmetry()` to visualise the results:
+
+```{r message= FALSE, warning=FALSE}
+tableTemporalSymmetry(result = temporal_symmetry)
+```
 
 ```{r message= FALSE, warning=FALSE}
 plotTemporalSymmetry(result = temporal_symmetry)
 ```
 Note that the $x$ axis is the time, which we recall to be the initiation of the marker minus the initiation of the index. The unit of the time difference here is month as this is the default from `summarisTemporalSymmetry()`. 
-
-## Modify `xlim` and `labs`
-
-If one changes the `timescale` for `summarisTemporalSymmetry()` to be `day` then logically one should change the `xlim` and `labs` accordingly like so:
-
-```{r message= FALSE, warning=FALSE}
-temporal_symmetry_day <- summariseTemporalSymmetry(cohort = cdm$intersect, timescale = "day")
-
-plotTemporalSymmetry(result = temporal_symmetry_day,
-                     labs = c("Time (days)", "Individuals (N)"),
-                     xlim = c(-365, 365))
-```
-
-## Modify `plotTitle`
-
-Much like what we already saw in **Step 3. Visualise the sequence ratios**. One could do the following: 
-
-```{r message= FALSE, warning=FALSE}
-plotTemporalSymmetry(result = temporal_symmetry,
-                     plotTitle = "Plot Temporal Symmetry")
-```
-
-## Modify `colours`
-
-`colours` could be modified like so (remember two colours are required):
-
-```{r message= FALSE, warning=FALSE}
-plotTemporalSymmetry(result = temporal_symmetry,
-                     colours = c("orange", "purple"))
-```
-
-## Modify `scales`
-
-The `scale` parameter is designed for the users to have a choice as to whether to set free y scales for the facet wrap when there are multiple plots (i.e. each plot has its own scaled y axis) or set them equal for all. Only accepts "free" for the former and "fixed" for the latter.
-
-For the `cdm$intersect` we have, it does not make a difference setting it to "fixed" or "free" (default). However, should one wish to set it to "fixed", one should do: 
-
-```{r message= FALSE, warning=FALSE, eval=FALSE}
-plotTemporalSymmetry(result = temporal_symmetry,
-                     scales = "fixed")
-```
 
 ```{r message= FALSE, warning=FALSE, eval=FALSE}
 CDMConnector::cdmDisconnect(cdm = cdm)

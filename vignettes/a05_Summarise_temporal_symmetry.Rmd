@@ -107,16 +107,6 @@ summariseTemporalSymmetry(cohort = cdm$intersect,
   dplyr::glimpse()
 ```
 
-## Modify `minCellCount`
-
-By default, the minimum number of events to reported is 5, below which results will be obscured. If 0, all results will be reported and the user could do this via: 
-
-```{r message= FALSE, warning=FALSE}
-summariseTemporalSymmetry(cohort = cdm$intersect,
-                          minCellCount = 0) |> 
-  dplyr::glimpse()
-```
-
 ```{r message= FALSE, warning=FALSE, eval=FALSE}
 CDMConnector::cdmDisconnect(cdm = cdm)
 ```

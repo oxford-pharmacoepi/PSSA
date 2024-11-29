@@ -125,29 +125,6 @@ plotSequenceRatios(result = result,
                    colours = "red")
 ```
 
-## Modify `plotTitle`
-
-One could set the title like so:
-
-```{r message= FALSE, warning=FALSE}
-plotSequenceRatios(result = result,
-                   onlyASR = T,
-                   plotTitle = "Adjusted Sequence Ratio",
-                   colour = "black")
-```
-
-## Modify `labs`
-
-One could also change the $x$ and $y$ labels like so:
-
-```{r message= FALSE, warning=FALSE}
-plotSequenceRatios(result = result,
-                   onlyASR = T,
-                   plotTitle = "Adjusted Sequence Ratio",
-                   colour = "black",
-                   labs = c("sequence ratios", "analysis"))
-```
-
 ```{r message= FALSE, warning=FALSE, eval=FALSE}
 CDMConnector::cdmDisconnect(cdm = cdm)
 ```

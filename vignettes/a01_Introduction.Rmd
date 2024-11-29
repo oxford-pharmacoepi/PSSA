@@ -89,29 +89,35 @@ cdm$intersect |>
   dplyr::glimpse()
 ```
 
-Once we have the intersect cohort, you are able to explore the temporal symmetry by using `summariseTemporalSymmetry` and `plotTemporalSymmetry()`:
+Once we have the intersect cohort, you are able to explore the temporal symmetry by using `summariseTemporalSymmetry`, `tableTemporalSymmetry`, and `plotTemporalSymmetry()`:
 
 ```{r message= FALSE, warning=FALSE}
-result <- summariseTemporalSymmetry(cohort = cdm$intersect, 
-                                    timescale = "year")
+temporal_symmetry <- summariseTemporalSymmetry(
+  cohort = cdm$intersect, 
+  timescale = "year")
+```
+The result can be viewed using table and plot functions.
 
-plotTemporalSymmetry(result = result)
+```{r message= FALSE, warning=FALSE}
+tableTemporalSymmetry(result = temporal_symmetry)
+```
+
+```{r message= FALSE, warning=FALSE}
+plotTemporalSymmetry(result = temporal_symmetry)
 ```
 
 Next, we will use the `summariseSequenceRatios()` function to get the crude sequence ratios, adjusted sequence ratios, and the corresponding confidence intervals.
 ```{r message= FALSE, warning=FALSE}
-result <- summariseSequenceRatios(cohort = cdm$intersect)
-
-result |> dplyr::glimpse()
+sequence_ratio <- summariseSequenceRatios(cohort = cdm$intersect)
 ```
 Finally, we can visualise the results using `tableSequenceRatios()`:
 ```{r message= FALSE, warning=FALSE}
-tableSequenceRatios(result)
+tableSequenceRatios(result = sequence_ratio)
 ```
-Or create a plot with the adjusted sequence ratios:
 
+Or create a plot with the adjusted sequence ratios:
 ```{r message= FALSE, warning=FALSE}
-plotSequenceRatios(result = result)
+plotSequenceRatios(result = sequence_ratio)
 ```
 
 ## As a diagram

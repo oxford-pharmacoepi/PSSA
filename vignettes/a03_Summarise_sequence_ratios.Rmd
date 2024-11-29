@@ -81,40 +81,6 @@ summariseSequenceRatios(
 
 The obtained output has a summarised result format. In the later vignette (**Step 3. Visualise results**) we will explore how to visualise the results in a more intuitive way. 
 
-## Modify the cohort based on `cohort_definition_id`
-
-This parameter is used to subset the cohort table inputted to the `summariseSequenceRatios()`. Imagine the user only wants to include `cohort_definition_id` $= 1$ from `cdm$intersect` in the `summariseSequenceRatios()`, then one could do the following:
-
-```{r message= FALSE, warning=FALSE}
-summariseSequenceRatios(cohort = cdm$intersect,
-                          cohortId = 1) |> 
-  dplyr::glimpse()
-```
-
-Of course in this case this does nothing because every entry in `cdm$intersect` has `cohort_definition_id` $= 1$.
-
-## Modify `confidenceInterval`
-By default, the `summariseSequenceRatios()` function will use 95% (two-sided) confidence interval. If another confidence interval is desired, for example 99% confidence interval, one can use the `confidenceInterval` argument:
-```{r message = FALSE, warning = FALSE}
-summariseSequenceRatios(
-  cohort = cdm$intersect,
-  confidenceInterval = 99) |> 
-  dplyr::glimpse()
-```
-
-## Modify `movingAverageRestriction`
-The idea of moving average restriction is necessary only for the null sequence ratio calculation, please refer to Lai et al. (2017) for more details on this parameter (parameter d when calculating P in page 578). Following Tsiropoulos et al. (2009), by default, the argument `movingAverageRestriction` is set to be  $548$ ($18$ months). 
-
-## Modify `minCellCount`
-
-By default, the minimum number of events to reported is 5, below which results will be obscured. If 0, all results will be reported and the user could do this via: 
-
-```{r message= FALSE, warning=FALSE}
-summariseSequenceRatios(cohort = cdm$intersect,
-                        minCellCount = 0) |> 
-  dplyr::glimpse()
-```
-
 ```{r message= FALSE, warning=FALSE, eval=FALSE}
 CDMConnector::cdmDisconnect(cdm = cdm)
 ```

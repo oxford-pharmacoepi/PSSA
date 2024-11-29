@@ -68,12 +68,6 @@ cdm <- emptyCdmReference(cdmName = "mock") |>
 
 con <- dbConnect(duckdb::duckdb())
 cdm <- copyCdmTo(con = con, cdm = cdm, schema = "main", overwrite = T)
-
-cdm$index_cohort |> 
-  dplyr::glimpse()
-
-cdm$marker_cohort |> 
-  dplyr::glimpse()
 ```
 
 Once we have established a connection to the database, we can use the `generateSequenceCohortSet()` function to find the intersection of the two cohorts. This function will provide us with the individuals who appear in both cohorts, which will be named **intersect** - another cohort in the cdm reference.
@@ -100,7 +94,6 @@ Once we have the intersect cohort, you are able to explore the temporal symmetry
 ```{r message= FALSE, warning=FALSE}
 result <- summariseTemporalSymmetry(cohort = cdm$intersect, 
                                     timescale = "year")
-result |> dplyr::glimpse()
 
 plotTemporalSymmetry(result = result)
 ```

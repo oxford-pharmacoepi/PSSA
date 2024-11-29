@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CohortSymmetry</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,34 +150,7 @@ colour needs to be specified):</p>
 <span>                   onlyASR <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                   colours <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a04_Visualise_sequence_ratios_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
-</div>
-<div class="section level3">
-<h3 id="modify-plottitle">Modify <code>plotTitle</code><a class="anchor" aria-label="anchor" href="#modify-plottitle"></a>
-</h3>
-<p>One could set the title like so:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSequenceRatios.html">plotSequenceRatios</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>,</span>
-<span>                   onlyASR <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                   plotTitle <span class="op">=</span> <span class="st">"Adjusted Sequence Ratio"</span>,</span>
-<span>                   colour <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a04_Visualise_sequence_ratios_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-</div>
-<div class="section level3">
-<h3 id="modify-labs">Modify <code>labs</code><a class="anchor" aria-label="anchor" href="#modify-labs"></a>
-</h3>
-<p>One could also change the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-labels like so:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotSequenceRatios.html">plotSequenceRatios</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">result</span>,</span>
-<span>                   onlyASR <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                   plotTitle <span class="op">=</span> <span class="st">"Adjusted Sequence Ratio"</span>,</span>
-<span>                   colour <span class="op">=</span> <span class="st">"black"</span>,</span>
-<span>                   labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sequence ratios"</span>, <span class="st">"analysis"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a04_Visualise_sequence_ratios_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">CDMConnector</span><span class="fu">::</span><span class="fu"><a href="https://darwin-eu.github.io/CDMConnector/reference/cdmDisconnect.html" class="external-link">cdmDisconnect</a></span><span class="op">(</span>cdm <span class="op">=</span> <span class="va">cdm</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>

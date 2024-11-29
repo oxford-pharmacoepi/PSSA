@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CohortSymmetry</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,73 +97,25 @@ symmetry.</li>
 <p>With this established, much like
 <code><a href="../reference/summariseSequenceRatios.html">summariseSequenceRatios()</a></code>, the object
 <code>temporal_symmetry</code> could then be fed into
-<code><a href="../reference/summariseTemporalSymmetry.html">summariseTemporalSymmetry()</a></code> to visualise the results:</p>
+<code><a href="../reference/tableTemporalSymmetry.html">tableTemporalSymmetry()</a></code> or
+<code><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry()</a></code> to visualise the results:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tableTemporalSymmetry.html">tableTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a06_Visualise_temporal_symmetry_files/figure-html/unnamed-chunk-5-1.png" width="672">
+<p><img src="a06_Visualise_temporal_symmetry_files/figure-html/unnamed-chunk-6-1.png" width="672">
 Note that the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 axis is the time, which we recall to be the initiation of the marker
 minus the initiation of the index. The unit of the time difference here
 is month as this is the default from
 <code>summarisTemporalSymmetry()</code>.</p>
-<div class="section level3">
-<h3 id="modify-xlim-and-labs">Modify <code>xlim</code> and <code>labs</code><a class="anchor" aria-label="anchor" href="#modify-xlim-and-labs"></a>
-</h3>
-<p>If one changes the <code>timescale</code> for
-<code>summarisTemporalSymmetry()</code> to be <code>day</code> then
-logically one should change the <code>xlim</code> and <code>labs</code>
-accordingly like so:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">temporal_symmetry_day</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summariseTemporalSymmetry.html">summariseTemporalSymmetry</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">cdm</span><span class="op">$</span><span class="va">intersect</span>, timescale <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry_day</span>,</span>
-<span>                     labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time (days)"</span>, <span class="st">"Individuals (N)"</span><span class="op">)</span>,</span>
-<span>                     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">365</span>, <span class="fl">365</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a06_Visualise_temporal_symmetry_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-</div>
-<div class="section level3">
-<h3 id="modify-plottitle">Modify <code>plotTitle</code><a class="anchor" aria-label="anchor" href="#modify-plottitle"></a>
-</h3>
-<p>Much like what we already saw in <strong>Step 3. Visualise the
-sequence ratios</strong>. One could do the following:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry</span>,</span>
-<span>                     plotTitle <span class="op">=</span> <span class="st">"Plot Temporal Symmetry"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a06_Visualise_temporal_symmetry_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-</div>
-<div class="section level3">
-<h3 id="modify-colours">Modify <code>colours</code><a class="anchor" aria-label="anchor" href="#modify-colours"></a>
-</h3>
-<p><code>colours</code> could be modified like so (remember two colours
-are required):</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry</span>,</span>
-<span>                     colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"orange"</span>, <span class="st">"purple"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a06_Visualise_temporal_symmetry_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
-</div>
-<div class="section level3">
-<h3 id="modify-scales">Modify <code>scales</code><a class="anchor" aria-label="anchor" href="#modify-scales"></a>
-</h3>
-<p>The <code>scale</code> parameter is designed for the users to have a
-choice as to whether to set free y scales for the facet wrap when there
-are multiple plots (i.e. each plot has its own scaled y axis) or set
-them equal for all. Only accepts “free” for the former and “fixed” for
-the latter.</p>
-<p>For the <code>cdm$intersect</code> we have, it does not make a
-difference setting it to “fixed” or “free” (default). However, should
-one wish to set it to “fixed”, one should do:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTemporalSymmetry.html">plotTemporalSymmetry</a></span><span class="op">(</span>result <span class="op">=</span> <span class="va">temporal_symmetry</span>,</span>
-<span>                     scales <span class="op">=</span> <span class="st">"fixed"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">CDMConnector</span><span class="fu">::</span><span class="fu"><a href="https://darwin-eu.github.io/CDMConnector/reference/cdmDisconnect.html" class="external-link">cdmDisconnect</a></span><span class="op">(</span>cdm <span class="op">=</span> <span class="va">cdm</span><span class="op">)</span></span></code></pre></div>
 <p><strong>That would be the end of the vignette, have fun with the
 package!</strong></p>
 </div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 

@@ -89,7 +89,7 @@ test_that("test cohortId",{
                  dplyr::distinct(group_level) %>%
                  dplyr::pull(group_level)) == "cohort_1 &&& cohort_1")
 
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("input validation",{

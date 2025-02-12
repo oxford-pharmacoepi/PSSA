@@ -7,13 +7,13 @@ test_that("eunomia - generateSequenceCohortSet", {
   if (!dir.exists(Sys.getenv("EUNOMIA_DATA_FOLDER"))) {
     dir.create(Sys.getenv("EUNOMIA_DATA_FOLDER"))
   }
-  if (!CDMConnector::eunomia_is_available()) {
+  if (!CDMConnector::eunomiaIsAvailable()) {
     invisible(utils::capture.output(CDMConnector::downloadEunomiaData(pathToData = Sys.getenv("EUNOMIA_DATA_FOLDER"))))
   }
 
   con <- DBI::dbConnect(duckdb::duckdb(),
-                        dbdir = CDMConnector::eunomia_dir())
-  cdm <- CDMConnector::cdm_from_con(con, cdm_schema = "main", write_schema = "main")
+                        dbdir = CDMConnector::eunomiaDir())
+  cdm <- CDMConnector::cdmFromCon(con, cdmSchema = "main", writeSchema = "main")
 
   index_drug <- CodelistGenerator::getDrugIngredientCodes(cdm = cdm,
                                                           name = "celecoxib")
@@ -58,7 +58,7 @@ test_that("eunomia - generateSequenceCohortSet", {
    nice_table <- tableSequenceRatios(res, type = "tibble")
  )
 
-  CDMConnector::cdm_disconnect(cdm)
+  CDMConnector::cdmDisconnect(cdm)
 })
 
 test_that("check redundant_fun", {

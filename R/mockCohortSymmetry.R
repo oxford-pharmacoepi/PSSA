@@ -77,9 +77,9 @@ mockCohortSymmetry <- function(seed = 1,
                                                                         cohort_2 = markerCohort),
                                                           seed = seed)
 
-  cdm <- CDMConnector::copy_cdm_to(con = con,
-                                   cdm = cdm,
-                                   schema = schema)
+  cdm <- CDMConnector::copyCdmTo(con = con,
+                                 cdm = cdm,
+                                 schema = schema)
 
   return(cdm)
 

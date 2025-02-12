@@ -15,7 +15,7 @@ test_that("plot working", {
       seed = 33
     )
   db <- DBI::dbConnect(duckdb::duckdb(), ":memory:")
-  cdm <- CDMConnector::copy_cdm_to(db,
+  cdm <- CDMConnector::copyCdmTo(db,
                                    cdm,
                                    schema = "main",
                                    overwrite = TRUE)
@@ -55,7 +55,7 @@ test_that("expected errors", {
       seed = 33
     )
   db <- DBI::dbConnect(duckdb::duckdb(), ":memory:")
-  cdm <- CDMConnector::copy_cdm_to(db,
+  cdm <- CDMConnector::copyCdmTo(db,
                                    cdm,
                                    schema = "main",
                                    overwrite = TRUE)
@@ -128,5 +128,5 @@ test_that("empty result error",{
     plotSequenceRatios(sr2)
   )
 
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })

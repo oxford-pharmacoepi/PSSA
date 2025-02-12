@@ -60,7 +60,7 @@ test_that("summariseSequenceRatios", {
       cohort = cdm$joined_cohorts,
       confidenceInterval = -101)
   )
-    CDMConnector::cdm_disconnect(cdm = cdm)
+    CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("summariseSequenceRatios - testing ratios and CIs, Example 1", {
@@ -794,7 +794,7 @@ test_that("edge case 1", {
   expect_error(
     result <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
   )
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("edge case 2", {
@@ -832,7 +832,7 @@ test_that("edge case 2", {
   expect_warning(
     result <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
   )
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("edge case 3", {
@@ -870,7 +870,7 @@ test_that("edge case 3", {
   expect_warning(
     result <- summariseSequenceRatios(cohort = cdm$joined_cohorts)
   )
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("min cell count",{
@@ -953,7 +953,7 @@ test_that("min cell count",{
       nrow()|>
       as.numeric())
 
-  CDMConnector::cdm_disconnect(cdm = cdm)
+  CDMConnector::cdmDisconnect(cdm = cdm)
 })
 
 test_that("Inf CI", {
